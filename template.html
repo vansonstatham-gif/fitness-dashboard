@@ -44,11 +44,12 @@
   .chip.ok{border-color:rgba(111,227,123,.4);color:#9DE8A7}
   .chip.warn{border-color:rgba(255,183,77,.4);color:#FFCC80}
   .chip.bad{border-color:rgba(255,110,110,.45);color:#FF9E9E}
-  .mini{display:flex;align-items:flex-end;gap:4px;height:80px;margin-top:8px}
-  .mini .col{flex:1;display:flex;flex-direction:column;justify-content:flex-end;gap:3px}
-  .mini .col i{display:block;border-radius:3px 3px 0 0;background:linear-gradient(180deg,#4FC3F7,#2F80ED);min-height:2px}
-  .mini .x{display:flex;gap:4px;margin-top:6px}
-  .mini .x span{flex:1;text-align:center;font-size:9px;color:#6f7c92}
+  .mini{display:flex;align-items:stretch;gap:3px;height:92px;margin-top:10px;overflow:hidden}
+  .mini .col{flex:1;display:flex;flex-direction:row;align-items:flex-end;gap:2px;height:100%}
+  .mini .col i{display:block;border-radius:3px 3px 0 0;min-height:2px;flex:1 1 0}
+  .x{display:flex;margin-top:6px}
+  .x span{flex:1;font-size:9px;color:#6f7c92;white-space:nowrap}
+  .x span:last-child{text-align:right}
   .legend{font-size:11px;color:#7d8ba1;display:flex;gap:14px;margin-top:8px}
   .legend i{display:inline-block;width:8px;height:8px;border-radius:2px;margin-right:4px}
   .empty{color:#6f7c92;font-size:12.5px;padding:6px 0}
@@ -84,7 +85,7 @@
   <div class="panel">
     <h2><span class="dot"></span>近 14 天</h2>
     <div class="grid g3">
-      <div class="card"><div class="label">训练容量 (t)</div><div class="mini" id="mVol"></div><div class="x" id="xVol"></div></div>
+      <div class="card"><div class="label">训练容量 (kg)</div><div class="mini" id="mVol"></div><div class="x" id="xVol"></div></div>
       <div class="card"><div class="label">热量 / 蛋白</div><div class="mini" id="mCal"></div><div class="x" id="xCal"></div><div class="legend"><span><i style="background:#4FC3F7"></i>kcal</span><span><i style="background:#6FE37B"></i>蛋白 g</span></div></div>
       <div class="card"><div class="label">睡眠 (h)</div><div class="mini" id="mSleep"></div><div class="x" id="xSleep"></div></div>
     </div>
@@ -154,25 +155,32 @@ DATA.gaps.forEach(g=>{
 });
 
 // mini charts
-function mini(el, xs, val, color, max, fmt){
+function mini(el, xs, keys, colors, maxes, fmts){
   const host = document.getElementById(el);
   const xhost = document.getElementById(el.replace("m","x"));
-  const m = max || Math.max(1, ...xs.map(x=>x[val]||0));
   host.innerHTML = xs.map(x=>{
-    const v = x[val]||0;
-    const h = Math.round((v/m)*100);
-    return `<div class="col" title="${x.date}: ${fmt?fmt(v):v}"><i style="height:${h}%;background:${color}"></i></div>`;
+    const bars = keys.map((k,i)=>{
+      const v = x[k]||0;
+      const max = maxes[i] || Math.max(1, ...xs.map(y=>y[k]||0));
+      const h = v>0 ? Math.max(2, Math.min(100, Math.round(v/max*100))) : 0;
+      return `<i style="height:${h}%;background:${colors[i]}" title="${x.date} ${fmts[i](v)}"></i>`;
+    }).join("");
+    return `<div class="col">${bars}</div>`;
   }).join("");
-  xhost.innerHTML = xs.map((x,i)=>`<span>${i%2===0?x.date.slice(5):""}</span>`).join("");
+  xhost.innerHTML = xs.map((x,i)=>
+    `<span>${i===0 ? x.date.slice(5) : (i===xs.length-1 ? x.date.slice(5) : "")}</span>`).join("");
 }
-mini("mVol", DATA.series, "volume", "linear-gradient(180deg,#4FC3F7,#2F80ED)", null, v=>num(v)+" kg");
-mini("mCal", DATA.series, "kcal", "linear-gradient(180deg,#4FC3F7,#2F80ED)", 2600, v=>num(v)+" kcal");
-mini("mSleep", DATA.series, "sleep", "linear-gradient(180deg,#9B8CFF,#6C5CE7)", 9, v=>num(v,1)+" h");
+mini("mVol", DATA.series, ["volume"], ["linear-gradient(180deg,#4FC3F7,#2F80ED)"], [], [v=>num(v)+" kg"]);
+mini("mCal", DATA.series, ["kcal","protein"],
+     ["linear-gradient(180deg,#4FC3F7,#2F80ED)","linear-gradient(180deg,#6FE37B,#38B24A)"],
+     [Math.max(2200, ...DATA.series.map(x=>x.kcal||0)), Math.max(120, ...DATA.series.map(x=>x.protein||0))],
+     [v=>num(v)+" kcal", v=>num(v)+" g 蛋白"]);
+mini("mSleep", DATA.series, ["sleep"], ["linear-gradient(180deg,#9B8CFF,#6C5CE7)"], [9], [v=>num(v,1)+" h"]);
 
 // recent sessions
 const recEl = document.getElementById("recent");
 recEl.innerHTML = `<table><thead><tr><th>日期</th><th>部位</th><th class="num">组数</th><th class="num">容量</th><th>主项</th></tr></thead><tbody>
-${DATA.sessions.map(s=>`<tr><td>${esc(s.date)}</td><td>${esc(s.parts)}</td><td class="num">${s.sets}</td><td class="num">${num(s.volume)}</td><td>${esc(s.top)}</td></tr>`).join("")}
+${DATA.sessions.map(s=>`<tr><td>${esc(s.date)}</td><td>${esc(s.parts)}</td><td class="num">${s.sets||"—"}</td><td class="num">${s.volume?num(s.volume):"—"}</td><td>${esc(s.top)}</td></tr>`).join("")}
 </tbody></table>`;
 
 document.getElementById("foot").textContent = `数据每日自动重建 · 目标设定 2026-08-17 · 最近同步 ${DATA.lastHealthDate||"—"}`;
