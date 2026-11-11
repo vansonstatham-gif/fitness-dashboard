@@ -128,7 +128,7 @@ DATA.goals.forEach(g=>{
 const t = DATA.todaySummary;
 const todayEl = document.getElementById("today");
 const cards = [
-  ["训练", t.training.sets? `${t.training.sets}<span class="unit">组</span>` : "未训练", `${num(t.training.volume)} kg 容量`, t.training.parts],
+  [t.training.label || "训练", t.training.sets? `${t.training.sets}<span class="unit">组</span>` : "未训练", `${num(t.training.volume)} kg 容量`, t.training.parts],
   ["热量", `${num(t.diet.kcal)}<span class="unit">/ ${t.diet.line}</span>`, `蛋白 ${num(t.diet.protein)}g / 目标 ${t.diet.protein_target}g`, null],
   ["睡眠", t.health.sleep!=null? `${num(t.health.sleep,2)}<span class="unit">h</span>` : "—",
     `步数 ${num(t.health.steps)} · 活动 ${num(t.health.active)}kcal`,
