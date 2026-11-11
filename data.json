@@ -1,6 +1,6 @@
 {
   "today": "2026-11-11",
-  "generated_at": "2026-11-11 09:24",
+  "generated_at": "2026-11-11 09:25",
   "phase": "减脂期 · 目标体脂 15%",
   "goals": [
     {
@@ -89,12 +89,12 @@
         },
         {
           "name": "M-TORTURE WIDE PULLDOWN REAR2",
-          "sets": "40×12×2",
+          "sets": "40×12/12",
           "volume": 960.0
         },
         {
           "name": "引体向上",
-          "sets": "自重×15 / 自重×11 / 自重×8",
+          "sets": "自重×15/11/8",
           "volume": 0.0
         }
       ]
