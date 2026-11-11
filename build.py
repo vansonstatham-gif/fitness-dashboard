@@ -234,7 +234,17 @@ def main():
 
     # ---------- today ----------
     td = today.isoformat()
+
+    def sleep_morning(d):
+        """Sleep hours of the night that ended on d — Apple attributes it to the previous day."""
+        prev = (datetime.strptime(d, "%Y-%m-%d").date() - timedelta(days=1)).isoformat()
+        return num((act_by_date.get(prev) or {}).get("睡眠时长")) or 0
+
     td_tr = by_date.get(td, {"sets": 0, "volume": 0.0, "items": {}, "parts": set()})
+    # after midnight there is no session yet — show the latest training day instead of "休息日"
+    tr_date = td if td_tr["sets"] else (max(by_date) if by_date else td)
+    if tr_date != td:
+        td_tr = by_date[tr_date]
     td_diet = diet_by_date.get(td, {"kcal": 0.0, "protein": 0.0, "items": []})
     def set_label(w, r):
         return (f"自重×{r:.0f}" if w == 0 else f"{w:.0f}×{r:.0f}")
@@ -254,17 +264,20 @@ def main():
         items.append({"name": name, "sets": seq, "volume": sum(a * b for a, b in pairs)})
     items.sort(key=lambda i: -i["volume"])
 
+    trained_today = by_date.get(td, {}).get("sets", 0) > 0
     today_summary = {
         "training": {
+            "label": "训练" if tr_date == td else f"最近训练 {tr_date[5:]}",
+            "date": tr_date,
             "sets": td_tr["sets"], "volume": td_tr["volume"],
             "parts": " / ".join(sorted(td_tr["parts"])) if td_tr["parts"] else "休息日",
             "items": items,
         },
         "diet": {"kcal": td_diet["kcal"], "protein": td_diet["protein"],
-                 "line": FAT_LINE_TRAIN if td_tr["sets"] else FAT_LINE,
+                 "line": FAT_LINE_TRAIN if trained_today else FAT_LINE,
                  "protein_target": PROTEIN_TARGET},
         "health": {
-            "sleep": num(health.get("睡眠时长")),
+            "sleep": sleep_morning(td) or None,
             "steps": num(health.get("步数")),
             "active": num(health.get("活动能量")),
             "date": hdate,
@@ -280,7 +293,7 @@ def main():
             "volume": round(by_date.get(d, {"volume": 0})["volume"]),
             "kcal": round(diet_by_date.get(d, {"kcal": 0})["kcal"]),
             "protein": round(diet_by_date.get(d, {"protein": 0})["protein"]),
-            "sleep": round(num((act_by_date.get(d) or {}).get("睡眠时长"), 0) or 0, 2),
+            "sleep": round(sleep_morning(d), 2),
         })
 
     # ---------- recent sessions ----------
