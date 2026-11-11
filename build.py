@@ -128,29 +128,37 @@ def main():
             e1rm = w * (1 + reps / 30)
             lifts[name].append((d, w, reps, e1rm))
 
-    cutoff_90 = (today - timedelta(days=90)).isoformat()
+    def e1rm_at(rows):
+        return max(rows, key=lambda t: t[3])
 
-    def best_e1rm(name):
+    def lift_stats(name):
+        """Latest session's best set + all-time best set."""
         rows = lifts.get(name, [])
         if not rows:
-            return None, None, None
-        recent = [r for r in rows if r[0] >= cutoff_90] or rows
-        r = max(recent, key=lambda t: t[3])
-        return r[3], r[1], r[2]
+            return None
+        latest_date = max(r[0] for r in rows)
+        latest = e1rm_at([r for r in rows if r[0] == latest_date])
+        best = e1rm_at(rows)
+        return latest, best
 
     goals = []
     for lift, target in GOALS.items():
-        e, w, reps = best_e1rm(lift)
-        if e is None:
+        st = lift_stats(lift)
+        if st is None:
             goals.append({"name": lift, "current": "无记录", "target": f"{target}kg", "pct": 0, "cls": "warn"})
             continue
+        latest, best = st
+        _, w, reps, e = latest
+        note = f"最近 {latest[0][5:]}｜历史最佳 {best[3]:.0f}kg ({best[0][5:]})"
+        if best[0][:7] != latest[0][:7]:
+            note = f"最近 {latest[0][5:]} {w:.0f}×{reps:.0f}｜历史最佳 {best[3]:.0f}kg"
         goals.append({
             "name": lift,
             "current": f"e1RM {e:.0f}kg ({w:.0f}×{reps:.0f})",
             "target": f"{target}kg",
             "pct": e / target * 100,
             "cls": "warn" if e / target < 0.6 else "",
-            "note": f"还差 {max(0, target - e):.0f}kg",
+            "note": note,
         })
 
     # body fat / weight goals
