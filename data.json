@@ -1,23 +1,23 @@
 {
   "today": "2026-11-11",
-  "generated_at": "2026-11-11 08:19",
+  "generated_at": "2026-11-11 09:22",
   "phase": "减脂期 · 目标体脂 15%",
   "goals": [
     {
       "name": "卧推",
-      "current": "e1RM 114kg (90×8)",
+      "current": "e1RM 111kg (95×5)",
       "target": "140kg",
-      "pct": 81.42857142857143,
+      "pct": 79.16666666666667,
       "cls": "",
-      "note": "还差 26kg"
+      "note": "最近 11-10 95×5｜历史最佳 117kg"
     },
     {
       "name": "深蹲",
-      "current": "e1RM 132kg (120×3)",
+      "current": "e1RM 128kg (110×5)",
       "target": "210kg",
-      "pct": 62.857142857142854,
+      "pct": 61.111111111111114,
       "cls": "",
-      "note": "还差 78kg"
+      "note": "最近 11-08｜历史最佳 132kg (11-01)"
     },
     {
       "name": "硬拉",
@@ -25,7 +25,7 @@
       "target": "210kg",
       "pct": 60.952380952380956,
       "cls": "",
-      "note": "还差 82kg"
+      "note": "最近 11-11 120×2｜历史最佳 134kg"
     },
     {
       "name": "体脂率",
@@ -52,8 +52,8 @@
     },
     {
       "name": "背",
-      "days": 6,
-      "last": "2026-11-05"
+      "days": 0,
+      "last": "2026-11-11"
     },
     {
       "name": "肩",
@@ -67,8 +67,8 @@
     },
     {
       "name": "硬拉",
-      "days": 53,
-      "last": "2026-09-19"
+      "days": 0,
+      "last": "2026-11-11"
     },
     {
       "name": "RDL",
@@ -78,15 +78,31 @@
   ],
   "todaySummary": {
     "training": {
-      "sets": 0,
-      "volume": 0.0,
-      "parts": "休息日",
-      "items": []
+      "sets": 8,
+      "volume": 2050.0,
+      "parts": "硬拉 / 背",
+      "items": [
+        {
+          "name": "硬拉",
+          "sets": "120×2×3",
+          "volume": 1090.0
+        },
+        {
+          "name": "M-TORTURE WIDE PULLDOWN REAR2",
+          "sets": "40×12×2",
+          "volume": 960.0
+        },
+        {
+          "name": "引体向上",
+          "sets": "0×15×3",
+          "volume": 0.0
+        }
+      ]
     },
     "diet": {
       "kcal": 0.0,
       "protein": 0.0,
-      "line": 1800,
+      "line": 1900,
       "protein_target": 130
     },
     "health": {
@@ -190,13 +206,20 @@
     },
     {
       "date": "2026-11-11",
-      "volume": 0,
+      "volume": 2050,
       "kcal": 0,
       "protein": 0,
       "sleep": 0
     }
   ],
   "sessions": [
+    {
+      "date": "2026-11-11",
+      "parts": "硬拉 / 背",
+      "sets": 8,
+      "volume": 2050,
+      "top": "硬拉"
+    },
     {
       "date": "2026-11-10",
       "parts": "胸",
@@ -231,13 +254,6 @@
       "sets": 12,
       "volume": 3520,
       "top": "M-TORTURE HIGH ROW"
-    },
-    {
-      "date": "2026-11-03",
-      "parts": "其他 / 有氧",
-      "sets": 5,
-      "volume": 2320,
-      "top": "ABDOMINAL CRUNCH"
     }
   ],
   "lastHealthDate": "2026-11-10",
