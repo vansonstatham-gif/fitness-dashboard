@@ -241,8 +241,13 @@ def main():
 
     items = []
     for name, pairs in td_tr["items"].items():
-        if len(set(pairs)) == 1:
-            seq = f"{set_label(*pairs[0])}×{len(pairs)}"
+        weights = {p[0] for p in pairs}
+        if len(weights) == 1 and len(pairs) > 1:
+            w0 = pairs[0][0]
+            reps = "/".join(f"{r:.0f}" for _, r in pairs)
+            seq = f"自重×{reps}" if w0 == 0 else f"{w0:.0f}×{reps}"
+        elif len(pairs) == 1:
+            seq = set_label(*pairs[0])
         else:
             shown = pairs[:4]
             seq = " / ".join(set_label(w, r) for w, r in shown) + (" …" if len(pairs) > 4 else "")
