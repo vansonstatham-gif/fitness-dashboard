@@ -1,6 +1,6 @@
 {
   "today": "2026-11-11",
-  "generated_at": "2026-11-11 09:25",
+  "generated_at": "2026-11-11 23:00",
   "phase": "减脂期 · 目标体脂 15%",
   "goals": [
     {
@@ -78,19 +78,24 @@
   ],
   "todaySummary": {
     "training": {
-      "sets": 8,
-      "volume": 2050.0,
+      "sets": 12,
+      "volume": 3450.0,
       "parts": "硬拉 / 背",
       "items": [
+        {
+          "name": "M-TORTURE WIDE PULLDOWN REAR2",
+          "sets": "40×12 / 40×12 / 45×8",
+          "volume": 1320.0
+        },
         {
           "name": "硬拉",
           "sets": "70×5 / 100×5 / 120×2",
           "volume": 1090.0
         },
         {
-          "name": "M-TORTURE WIDE PULLDOWN REAR2",
-          "sets": "40×12/12",
-          "volume": 960.0
+          "name": "LAT PULL DOWN",
+          "sets": "40×12 / 35×8 / 35×8",
+          "volume": 1040.0
         },
         {
           "name": "引体向上",
@@ -100,8 +105,8 @@
       ]
     },
     "diet": {
-      "kcal": 0.0,
-      "protein": 0.0,
+      "kcal": 1590.0,
+      "protein": 128.0,
       "line": 1900,
       "protein_target": 130
     },
@@ -206,9 +211,9 @@
     },
     {
       "date": "2026-11-11",
-      "volume": 2050,
-      "kcal": 0,
-      "protein": 0,
+      "volume": 3450,
+      "kcal": 1590,
+      "protein": 128,
       "sleep": 0
     }
   ],
@@ -216,9 +221,9 @@
     {
       "date": "2026-11-11",
       "parts": "硬拉 / 背",
-      "sets": 8,
-      "volume": 2050,
-      "top": "硬拉"
+      "sets": 12,
+      "volume": 3450,
+      "top": "M-TORTURE WIDE PULLDOWN REAR2"
     },
     {
       "date": "2026-11-10",
