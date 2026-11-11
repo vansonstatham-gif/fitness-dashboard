@@ -1,6 +1,6 @@
 {
   "today": "2026-11-11",
-  "generated_at": "2026-11-11 08:05",
+  "generated_at": "2026-11-11 08:19",
   "phase": "减脂期 · 目标体脂 15%",
   "goals": [
     {
@@ -214,7 +214,7 @@
     {
       "date": "2026-11-07",
       "parts": "有氧",
-      "sets": 1,
+      "sets": 0,
       "volume": 0,
       "top": "爬楼机"
     },
@@ -235,7 +235,7 @@
     {
       "date": "2026-11-03",
       "parts": "其他 / 有氧",
-      "sets": 7,
+      "sets": 5,
       "volume": 2320,
       "top": "ABDOMINAL CRUNCH"
     }
