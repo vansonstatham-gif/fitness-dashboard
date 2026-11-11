@@ -1,6 +1,6 @@
 {
-  "today": "2026-11-11",
-  "generated_at": "2026-11-11 23:00",
+  "today": "2026-11-12",
+  "generated_at": "2026-11-12 00:10",
   "phase": "减脂期 · 目标体脂 15%",
   "goals": [
     {
@@ -29,45 +29,45 @@
     },
     {
       "name": "体脂率",
-      "current": "21.3%",
+      "current": "20.3%",
       "target": "15%",
-      "pct": 0,
+      "pct": 11.666666666666654,
       "cls": "warn",
-      "note": "起点 21.0%，已上升 0.3 个点"
+      "note": "起点 21.0%，已下降 0.7 个点"
     },
     {
       "name": "体重",
-      "current": "70.5kg",
+      "current": "69.1kg",
       "target": "65-70kg",
-      "pct": 0,
-      "cls": "warn",
-      "note": "距 65kg 还差 5.5kg"
+      "pct": 100,
+      "cls": "",
+      "note": "距 65kg 还差 4.1kg"
     }
   ],
   "gaps": [
     {
       "name": "胸",
-      "days": 1,
+      "days": 2,
       "last": "2026-11-10"
     },
     {
       "name": "背",
-      "days": 0,
+      "days": 1,
       "last": "2026-11-11"
     },
     {
       "name": "肩",
-      "days": 5,
+      "days": 6,
       "last": "2026-11-06"
     },
     {
       "name": "腿",
-      "days": 3,
+      "days": 4,
       "last": "2026-11-08"
     },
     {
       "name": "硬拉",
-      "days": 0,
+      "days": 1,
       "last": "2026-11-11"
     },
     {
@@ -78,53 +78,25 @@
   ],
   "todaySummary": {
     "training": {
-      "sets": 12,
-      "volume": 3450.0,
-      "parts": "硬拉 / 背",
-      "items": [
-        {
-          "name": "M-TORTURE WIDE PULLDOWN REAR2",
-          "sets": "40×12 / 40×12 / 45×8",
-          "volume": 1320.0
-        },
-        {
-          "name": "硬拉",
-          "sets": "70×5 / 100×5 / 120×2",
-          "volume": 1090.0
-        },
-        {
-          "name": "LAT PULL DOWN",
-          "sets": "40×12 / 35×8 / 35×8",
-          "volume": 1040.0
-        },
-        {
-          "name": "引体向上",
-          "sets": "自重×15/11/8",
-          "volume": 0.0
-        }
-      ]
+      "sets": 0,
+      "volume": 0.0,
+      "parts": "休息日",
+      "items": []
     },
     "diet": {
-      "kcal": 1590.0,
-      "protein": 128.0,
-      "line": 1900,
+      "kcal": 0.0,
+      "protein": 0.0,
+      "line": 1800,
       "protein_target": 130
     },
     "health": {
-      "sleep": 6.53,
-      "steps": 296.0,
-      "active": 30.0,
-      "date": "2026-11-10"
+      "sleep": 0.0,
+      "steps": 13984.0,
+      "active": 886.0,
+      "date": "2026-11-11"
     }
   },
   "series": [
-    {
-      "date": "2026-10-29",
-      "volume": 3444,
-      "kcal": 2116,
-      "protein": 135,
-      "sleep": 6.06
-    },
     {
       "date": "2026-10-30",
       "volume": 0,
@@ -215,6 +187,13 @@
       "kcal": 1590,
       "protein": 128,
       "sleep": 0
+    },
+    {
+      "date": "2026-11-12",
+      "volume": 0,
+      "kcal": 0,
+      "protein": 0,
+      "sleep": 0
     }
   ],
   "sessions": [
@@ -261,13 +240,13 @@
       "top": "M-TORTURE HIGH ROW"
     }
   ],
-  "lastHealthDate": "2026-11-10",
+  "lastHealthDate": "2026-11-11",
   "rings": {
-    "active": 30.0,
+    "active": 886.0,
     "active_goal": 370.0,
-    "move": 0.0,
+    "move": 64.0,
     "move_goal": 45.0,
-    "stand": 1.0,
+    "stand": 15.0,
     "stand_goal": 6.0
   }
 }
