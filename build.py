@@ -117,9 +117,11 @@ def main():
         if not d or not name:
             continue
         item = by_date[d]
-        item["sets"] += 1
+        part = part_of(name)
+        if part != "有氧":
+            item["sets"] += 1
         item["volume"] += vol
-        item["parts"].add(part_of(name))
+        item["parts"].add(part)
         item["items"][name].append((w, reps))
 
         if w > 0 and reps > 0:
