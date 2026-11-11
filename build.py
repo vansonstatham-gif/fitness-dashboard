@@ -236,12 +236,17 @@ def main():
     td = today.isoformat()
     td_tr = by_date.get(td, {"sets": 0, "volume": 0.0, "items": {}, "parts": set()})
     td_diet = diet_by_date.get(td, {"kcal": 0.0, "protein": 0.0, "items": []})
+    def set_label(w, r):
+        return (f"自重×{r:.0f}" if w == 0 else f"{w:.0f}×{r:.0f}")
+
     items = []
     for name, pairs in td_tr["items"].items():
-        w = max(p[0] for p in pairs)
-        reps = [p[1] for p in pairs if p[0] == w]
-        items.append({"name": name, "sets": f"{w:.0f}×{reps[0]:.0f}" + (f"×{len(pairs)}" if len(pairs) > 1 else ""),
-                      "volume": sum(a * b for a, b in pairs)})
+        if len(set(pairs)) == 1:
+            seq = f"{set_label(*pairs[0])}×{len(pairs)}"
+        else:
+            shown = pairs[:4]
+            seq = " / ".join(set_label(w, r) for w, r in shown) + (" …" if len(pairs) > 4 else "")
+        items.append({"name": name, "sets": seq, "volume": sum(a * b for a, b in pairs)})
     items.sort(key=lambda i: -i["volume"])
 
     today_summary = {
