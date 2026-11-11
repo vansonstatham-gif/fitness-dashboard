@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vanson · 训练 & 目标看板</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'PingFang SC','Roboto','Segoe UI',Arial,sans-serif;background:linear-gradient(180deg,#0B0E14 0%,#101724 100%);color:#E8EEF7;-webkit-font-smoothing:antialiased;min-height:100vh}
+  .page{max-width:980px;margin:0 auto;padding:28px 18px 56px}
+  .header{display:flex;flex-wrap:wrap;align-items:flex-end;justify-content:space-between;gap:12px;margin-bottom:4px}
+  .header h1{font-size:22px;font-weight:700;letter-spacing:.4px}
+  .header h1 span{background:linear-gradient(90deg,#4FC3F7,#6FE37B);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .sub{font-size:12.5px;color:#8B97AB;margin-top:6px}
+  .tag{font-size:11px;color:#6FE37B;border:1px solid rgba(111,227,123,.35);padding:3px 10px;border-radius:999px;white-space:nowrap}
+  .panel{background:rgba(23,31,46,.85);border:1px solid rgba(120,140,180,.16);border-radius:18px;padding:20px;margin-top:20px}
+  .panel h2{font-size:15px;font-weight:600;color:#DDE6F2;margin-bottom:16px;display:flex;align-items:center;gap:8px}
+  .panel h2 .dot{width:7px;height:7px;border-radius:50%;background:#4FC3F7;box-shadow:0 0 10px #4FC3F7}
+  .grid{display:grid;gap:14px}
+  .g2{grid-template-columns:repeat(2,1fr)}
+  .g3{grid-template-columns:repeat(3,1fr)}
+  .g5{grid-template-columns:repeat(5,1fr)}
+  @media(max-width:760px){.g2,.g3,.g5{grid-template-columns:1fr 1fr}.g5{grid-template-columns:1fr 1fr}}
+  .card{background:rgba(15,22,34,.72);border:1px solid rgba(120,140,180,.14);border-radius:14px;padding:14px 15px}
+  .card .label{font-size:11.5px;color:#8B97AB;letter-spacing:.3px}
+  .card .value{font-size:24px;font-weight:700;margin-top:6px;line-height:1.1}
+  .card .unit{font-size:12px;color:#8B97AB;font-weight:500;margin-left:3px}
+  .card .hint{font-size:11px;color:#7d8ba1;margin-top:6px}
+  .bar{height:7px;border-radius:999px;background:rgba(120,140,180,.18);overflow:hidden;margin-top:10px}
+  .bar>i{display:block;height:100%;border-radius:999px;background:linear-gradient(90deg,#4FC3F7,#6FE37B)}
+  .bar.warn>i{background:linear-gradient(90deg,#FFB74D,#FF8A65)}
+  .goal{background:rgba(15,22,34,.72);border:1px solid rgba(120,140,180,.14);border-radius:14px;padding:14px 15px}
+  .goal .top{display:flex;justify-content:space-between;align-items:baseline}
+  .goal .name{font-size:13px;color:#C7D2E3;font-weight:600}
+  .goal .pct{font-size:13px;color:#6FE37B;font-weight:700}
+  .goal .nums{font-size:11.5px;color:#8B97AB;margin-top:8px;display:flex;justify-content:space-between}
+  table{width:100%;border-collapse:collapse;font-size:12.5px}
+  th{text-align:left;color:#7d8ba1;font-weight:500;font-size:11.5px;padding:6px 8px;border-bottom:1px solid rgba(120,140,180,.16)}
+  td{padding:8px;border-bottom:1px solid rgba(120,140,180,.08);color:#DCE4F0}
+  td.num{text-align:right;font-variant-numeric:tabular-nums}
+  .chips{display:flex;flex-wrap:wrap;gap:8px}
+  .chip{font-size:12px;padding:7px 12px;border-radius:10px;background:rgba(15,22,34,.8);border:1px solid rgba(120,140,180,.16);color:#B8C4D6}
+  .chip b{color:#E8EEF7}
+  .chip.ok{border-color:rgba(111,227,123,.4);color:#9DE8A7}
+  .chip.warn{border-color:rgba(255,183,77,.4);color:#FFCC80}
+  .chip.bad{border-color:rgba(255,110,110,.45);color:#FF9E9E}
+  .mini{display:flex;align-items:flex-end;gap:4px;height:80px;margin-top:8px}
+  .mini .col{flex:1;display:flex;flex-direction:column;justify-content:flex-end;gap:3px}
+  .mini .col i{display:block;border-radius:3px 3px 0 0;background:linear-gradient(180deg,#4FC3F7,#2F80ED);min-height:2px}
+  .mini .x{display:flex;gap:4px;margin-top:6px}
+  .mini .x span{flex:1;text-align:center;font-size:9px;color:#6f7c92}
+  .legend{font-size:11px;color:#7d8ba1;display:flex;gap:14px;margin-top:8px}
+  .legend i{display:inline-block;width:8px;height:8px;border-radius:2px;margin-right:4px}
+  .empty{color:#6f7c92;font-size:12.5px;padding:6px 0}
+  .foot{margin-top:26px;font-size:11px;color:#5f6b7f;text-align:center}
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="header">
+    <div>
+      <h1><span>Vanson</span> · 训练 &amp; 目标看板</h1>
+      <div class="sub" id="sub">加载中…</div>
+    </div>
+    <div class="tag" id="tag">—</div>
+  </div>
+
+  <div class="panel">
+    <h2><span class="dot"></span>目标进度</h2>
+    <div class="grid g5" id="goals"></div>
+  </div>
+
+  <div class="panel">
+    <h2><span class="dot"></span>今日</h2>
+    <div class="grid g3" id="today"></div>
+    <div style="margin-top:16px" id="todayTraining"></div>
+  </div>
+
+  <div class="panel">
+    <h2><span class="dot"></span>部位空窗雷达</h2>
+    <div class="chips" id="gaps"></div>
+  </div>
+
+  <div class="panel">
+    <h2><span class="dot"></span>近 14 天</h2>
+    <div class="grid g3">
+      <div class="card"><div class="label">训练容量 (t)</div><div class="mini" id="mVol"></div><div class="x" id="xVol"></div></div>
+      <div class="card"><div class="label">热量 / 蛋白</div><div class="mini" id="mCal"></div><div class="x" id="xCal"></div><div class="legend"><span><i style="background:#4FC3F7"></i>kcal</span><span><i style="background:#6FE37B"></i>蛋白 g</span></div></div>
+      <div class="card"><div class="label">睡眠 (h)</div><div class="mini" id="mSleep"></div><div class="x" id="xSleep"></div></div>
+    </div>
+  </div>
+
+  <div class="panel">
+    <h2><span class="dot"></span>最近训练</h2>
+    <div id="recent"></div>
+  </div>
+
+  <div class="foot" id="foot"></div>
+</div>
+
+<script>
+const DATA = {"today": "2026-11-11", "generated_at": "2026-11-11 07:55", "phase": "减脂期 · 目标体脂 15%", "goals": [{"name": "卧推", "current": "e1RM 114kg (90×8)", "target": "140kg", "pct": 81.42857142857143, "cls": "", "note": "还差 26kg"}, {"name": "深蹲", "current": "e1RM 132kg (120×3)", "target": "210kg", "pct": 62.857142857142854, "cls": "", "note": "还差 78kg"}, {"name": "硬拉", "current": "e1RM 128kg (120×2)", "target": "210kg", "pct": 60.952380952380956, "cls": "", "note": "还差 82kg"}, {"name": "体脂率", "current": "21.3%", "target": "15%", "pct": 0, "cls": "warn", "note": "起点 21.0%，已上升 0.3 个点"}, {"name": "体重", "current": "70.5kg", "target": "65-70kg", "pct": 0, "cls": "warn", "note": "距 65kg 还差 5.5kg"}], "gaps": [{"name": "胸", "days": 1, "last": "2026-11-10"}, {"name": "背", "days": 6, "last": "2026-11-05"}, {"name": "肩", "days": 5, "last": "2026-11-06"}, {"name": "腿", "days": 3, "last": "2026-11-08"}, {"name": "硬拉", "days": 53, "last": "2026-09-19"}, {"name": "RDL", "days": null, "last": null}], "todaySummary": {"training": {"sets": 0, "volume": 0.0, "parts": "休息日", "items": []}, "diet": {"kcal": 0.0, "protein": 0.0, "line": 1800, "protein_target": 130}, "health": {"sleep": 6.53, "steps": 296.0, "active": 30.0, "date": "2026-11-10"}}, "series": [{"date": "2026-10-29", "volume": 3444, "kcal": 2116, "protein": 135, "sleep": 6.06}, {"date": "2026-10-30", "volume": 0, "kcal": 930, "protein": 46, "sleep": 6.61}, {"date": "2026-10-31", "volume": 0, "kcal": 3085, "protein": 152, "sleep": 4.73}, {"date": "2026-11-01", "volume": 13430, "kcal": 2280, "protein": 92, "sleep": 8.38}, {"date": "2026-11-02", "volume": 9310, "kcal": 2085, "protein": 136, "sleep": 0}, {"date": "2026-11-03", "volume": 2320, "kcal": 1825, "protein": 109, "sleep": 6.41}, {"date": "2026-11-04", "volume": 0, "kcal": 1800, "protein": 98, "sleep": 4.61}, {"date": "2026-11-05", "volume": 3520, "kcal": 1900, "protein": 99, "sleep": 5.49}, {"date": "2026-11-06", "volume": 4799, "kcal": 2030, "protein": 89, "sleep": 6.57}, {"date": "2026-11-07", "volume": 0, "kcal": 0, "protein": 0, "sleep": 6.45}, {"date": "2026-11-08", "volume": 12110, "kcal": 340, "protein": 6, "sleep": 8.16}, {"date": "2026-11-09", "volume": 0, "kcal": 2496, "protein": 150, "sleep": 3.65}, {"date": "2026-11-10", "volume": 8040, "kcal": 2715, "protein": 151, "sleep": 6.53}, {"date": "2026-11-11", "volume": 0, "kcal": 0, "protein": 0, "sleep": 0}], "sessions": [{"date": "2026-11-10", "parts": "胸", "sets": 12, "volume": 8040, "top": "PLATE LOADED INCLINE"}, {"date": "2026-11-08", "parts": "腿", "sets": 11, "volume": 12110, "top": "M-TORTURE POWER LEG PRESS"}, {"date": "2026-11-07", "parts": "有氧", "sets": 1, "volume": 0, "top": "爬楼机"}, {"date": "2026-11-06", "parts": "肩", "sets": 20, "volume": 4799, "top": "实力举"}, {"date": "2026-11-05", "parts": "背", "sets": 12, "volume": 3520, "top": "M-TORTURE HIGH ROW"}, {"date": "2026-11-03", "parts": "其他 / 有氧", "sets": 7, "volume": 2320, "top": "ABDOMINAL CRUNCH"}], "lastHealthDate": "2026-11-10", "rings": {"active": 30.0, "active_goal": 370.0, "move": 0.0, "move_goal": 45.0, "stand": 1.0, "stand_goal": 6.0}};
+
+function esc(s){return String(s==null?"":s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));}
+function num(v,d=0){return (v==null||isNaN(v))?"—":Number(v).toFixed(d);}
+
+// header
+document.getElementById("sub").textContent =
+  `${DATA.today} · 生成于 ${DATA.generated_at} · 数据源：飞书训练/饮食/苹果健康 Base`;
+document.getElementById("tag").textContent = DATA.phase;
+
+// goals
+const goalsEl = document.getElementById("goals");
+DATA.goals.forEach(g=>{
+  const pct = Math.max(0, Math.min(100, g.pct));
+  const cls = g.cls ? " " + g.cls : "";
+  goalsEl.insertAdjacentHTML("beforeend", `
+    <div class="goal">
+      <div class="top"><span class="name">${esc(g.name)}</span><span class="pct">${pct.toFixed(1)}%</span></div>
+      <div class="bar${cls}"><i style="width:${pct}%"></i></div>
+      <div class="nums"><span>${esc(g.current)}</span><span>目标 ${esc(g.target)}</span></div>
+      ${g.note?`<div class="nums" style="margin-top:4px"><span style="color:#6f7c92">${esc(g.note)}</span></div>`:""}
+    </div>`);
+});
+
+// today cards
+const t = DATA.todaySummary;
+const todayEl = document.getElementById("today");
+const cards = [
+  ["训练", t.training.sets? `${t.training.sets}<span class="unit">组</span>` : "未训练", `${num(t.training.volume)} kg 容量`, t.training.parts],
+  ["热量", `${num(t.diet.kcal)}<span class="unit">/ ${t.diet.line}</span>`, `蛋白 ${num(t.diet.protein)}g / 目标 ${t.diet.protein_target}g`, null],
+  ["睡眠", t.health.sleep!=null? `${num(t.health.sleep,2)}<span class="unit">h</span>` : "—",
+    `步数 ${num(t.health.steps)} · 活动 ${num(t.health.active)}kcal`,
+    t.health.date && t.health.date!==DATA.today ? `健康数据日期 ${t.health.date.slice(5)}` : null],
+];
+cards.forEach(([label,value,hint,extra])=>{
+  todayEl.insertAdjacentHTML("beforeend", `
+    <div class="card"><div class="label">${label}</div><div class="value">${value}</div>
+    <div class="hint">${esc(hint||"")}</div>${extra?`<div class="hint">${esc(extra)}</div>`:""}</div>`);
+});
+
+const tt = document.getElementById("todayTraining");
+tt.innerHTML = t.training.items.length
+  ? `<table><thead><tr><th>动作</th><th class="num">重量×次数</th><th class="num">容量</th></tr></thead><tbody>
+     ${t.training.items.map(i=>`<tr><td>${esc(i.name)}</td><td class="num">${i.sets}</td><td class="num">${num(i.volume)}</td></tr>`).join("")}
+     </tbody></table>`
+  : `<div class="empty">今天还没有训练记录。</div>`;
+
+// gaps
+const gapsEl = document.getElementById("gaps");
+DATA.gaps.forEach(g=>{
+  const cls = g.days==null? "" : g.days<=3? " ok" : g.days<=7? "" : g.days<=14? " warn" : " bad";
+  gapsEl.insertAdjacentHTML("beforeend", `<div class="chip${cls}">${esc(g.name)} ${g.days==null?"<b>无记录</b>":`<b>${g.days} 天</b>`}</div>`);
+});
+
+// mini charts
+function mini(el, xs, val, color, max, fmt){
+  const host = document.getElementById(el);
+  const xhost = document.getElementById(el.replace("m","x"));
+  const m = max || Math.max(1, ...xs.map(x=>x[val]||0));
+  host.innerHTML = xs.map(x=>{
+    const v = x[val]||0;
+    const h = Math.round((v/m)*100);
+    return `<div class="col" title="${x.date}: ${fmt?fmt(v):v}"><i style="height:${h}%;background:${color}"></i></div>`;
+  }).join("");
+  xhost.innerHTML = xs.map((x,i)=>`<span>${i%2===0?x.date.slice(5):""}</span>`).join("");
+}
+mini("mVol", DATA.series, "volume", "linear-gradient(180deg,#4FC3F7,#2F80ED)", null, v=>num(v)+" kg");
+mini("mCal", DATA.series, "kcal", "linear-gradient(180deg,#4FC3F7,#2F80ED)", 2600, v=>num(v)+" kcal");
+mini("mSleep", DATA.series, "sleep", "linear-gradient(180deg,#9B8CFF,#6C5CE7)", 9, v=>num(v,1)+" h");
+
+// recent sessions
+const recEl = document.getElementById("recent");
+recEl.innerHTML = `<table><thead><tr><th>日期</th><th>部位</th><th class="num">组数</th><th class="num">容量</th><th>主项</th></tr></thead><tbody>
+${DATA.sessions.map(s=>`<tr><td>${esc(s.date)}</td><td>${esc(s.parts)}</td><td class="num">${s.sets}</td><td class="num">${num(s.volume)}</td><td>${esc(s.top)}</td></tr>`).join("")}
+</tbody></table>`;
+
+document.getElementById("foot").textContent = `数据每日自动重建 · 目标设定 2026-08-17 · 最近同步 ${DATA.lastHealthDate||"—"}`;
+</script>
+</body>
+</html>
