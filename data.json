@@ -1,6 +1,6 @@
 {
-  "today": "2026-11-12",
-  "generated_at": "2026-11-12 23:00",
+  "today": "2026-11-13",
+  "generated_at": "2026-11-13 08:49",
   "phase": "减脂期 · 目标体脂 15%",
   "goals": [
     {
@@ -28,6 +28,22 @@
       "note": "最近 11-11 120×2｜历史最佳 134kg"
     },
     {
+      "name": "实力举",
+      "current": "e1RM 67kg (65×1)",
+      "target": "70kg",
+      "pct": 95.95238095238095,
+      "cls": "",
+      "note": "最近 11-06 65×1｜历史最佳 70kg"
+    },
+    {
+      "name": "引体向上",
+      "current": "15 次",
+      "target": "20 次",
+      "pct": 75.0,
+      "cls": "",
+      "note": "最近 11-11｜历史最佳 18 次"
+    },
+    {
       "name": "体脂率",
       "current": "20.3%",
       "target": "15%",
@@ -47,27 +63,27 @@
   "gaps": [
     {
       "name": "胸",
-      "days": 2,
+      "days": 3,
       "last": "2026-11-10"
     },
     {
       "name": "背",
-      "days": 1,
+      "days": 2,
       "last": "2026-11-11"
     },
     {
       "name": "肩",
-      "days": 6,
+      "days": 7,
       "last": "2026-11-06"
     },
     {
       "name": "腿",
-      "days": 4,
+      "days": 5,
       "last": "2026-11-08"
     },
     {
       "name": "硬拉",
-      "days": 1,
+      "days": 2,
       "last": "2026-11-11"
     },
     {
@@ -78,22 +94,37 @@
   ],
   "todaySummary": {
     "training": {
-      "label": "训练",
-      "date": "2026-11-12",
-      "sets": 0,
-      "volume": 0.0,
-      "parts": "有氧",
+      "label": "最近训练 11-11",
+      "date": "2026-11-11",
+      "sets": 12,
+      "volume": 3450.0,
+      "parts": "硬拉 / 背",
       "items": [
         {
-          "name": "爬楼机",
-          "sets": "自重×0",
-          "volume": 0
+          "name": "M-TORTURE WIDE PULLDOWN REAR2",
+          "sets": "40×12 / 40×12 / 45×8",
+          "volume": 1320.0
+        },
+        {
+          "name": "硬拉",
+          "sets": "70×5 / 100×5 / 120×2",
+          "volume": 1090.0
+        },
+        {
+          "name": "LAT PULL DOWN",
+          "sets": "40×12 / 35×8 / 35×8",
+          "volume": 1040.0
+        },
+        {
+          "name": "引体向上",
+          "sets": "自重×15/11/8",
+          "volume": 0.0
         }
       ]
     },
     "diet": {
-      "kcal": 415.0,
-      "protein": 24.0,
+      "kcal": 0.0,
+      "protein": 0.0,
       "line": 1800,
       "protein_target": 130
     },
@@ -105,13 +136,6 @@
     }
   },
   "series": [
-    {
-      "date": "2026-10-30",
-      "volume": 0,
-      "kcal": 930,
-      "protein": 46,
-      "sleep": 6.06
-    },
     {
       "date": "2026-10-31",
       "volume": 0,
@@ -201,6 +225,13 @@
       "volume": 0,
       "kcal": 415,
       "protein": 24,
+      "sleep": 0
+    },
+    {
+      "date": "2026-11-13",
+      "volume": 0,
+      "kcal": 0,
+      "protein": 0,
       "sleep": 0
     }
   ],
