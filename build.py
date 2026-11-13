@@ -24,7 +24,8 @@ FAT_LINE = 1800
 FAT_LINE_TRAIN = 1900
 PROTEIN_TARGET = 130
 
-GOALS = {"卧推": 140, "深蹲": 210, "硬拉": 210}
+GOALS = {"卧推": 140, "深蹲": 210, "硬拉": 210, "实力举": 70}
+PULLUP_TARGET = 20
 FAT_TARGET = 15.0
 WEIGHT_LO, WEIGHT_HI = 65, 70
 
@@ -107,6 +108,7 @@ def main():
 
     # ---------- training ----------
     lifts = defaultdict(list)
+    pullups = []  # (date, reps) — bodyweight, so scored by reps instead of e1RM
     by_date = defaultdict(lambda: {"sets": 0, "volume": 0.0, "items": defaultdict(list), "parts": set()})
     for x in tr_rows:
         d = day(x.get("日期"))
@@ -127,6 +129,8 @@ def main():
         if w > 0 and reps > 0:
             e1rm = w * (1 + reps / 30)
             lifts[name].append((d, w, reps, e1rm))
+        if "引体" in name and reps > 0:
+            pullups.append((d, reps))
 
     def e1rm_at(rows):
         return max(rows, key=lambda t: t[3])
@@ -159,6 +163,17 @@ def main():
             "pct": e / target * 100,
             "cls": "warn" if e / target < 0.6 else "",
             "note": note,
+        })
+
+    if pullups:
+        latest_date = max(p[0] for p in pullups)
+        latest_reps = max(r for d, r in pullups if d == latest_date)
+        best_reps = max(r for _, r in pullups)
+        pct = latest_reps / PULLUP_TARGET * 100
+        goals.append({
+            "name": "引体向上", "current": f"{latest_reps:.0f} 次", "target": f"{PULLUP_TARGET} 次",
+            "pct": pct, "cls": "warn" if pct < 60 else "",
+            "note": f"最近 {latest_date[5:]}｜历史最佳 {best_reps:.0f} 次",
         })
 
     # body fat / weight goals
@@ -241,8 +256,9 @@ def main():
         return num((act_by_date.get(prev) or {}).get("睡眠时长")) or 0
 
     td_tr = by_date.get(td, {"sets": 0, "volume": 0.0, "items": {}, "parts": set()})
-    # after midnight there is no session yet — show the latest training day instead of "休息日"
-    tr_date = td if td_tr["sets"] else (max(by_date) if by_date else td)
+    # after midnight there is no session yet — show the latest strength day instead of "休息日"
+    strength_days = [d for d, v in by_date.items() if v["sets"] > 0]
+    tr_date = td if td_tr["sets"] else (max(strength_days) if strength_days else td)
     if tr_date != td:
         td_tr = by_date[tr_date]
     td_diet = diet_by_date.get(td, {"kcal": 0.0, "protein": 0.0, "items": []})
