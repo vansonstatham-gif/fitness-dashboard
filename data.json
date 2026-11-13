@@ -1,6 +1,6 @@
 {
-  "today": "2026-11-13",
-  "generated_at": "2026-11-13 08:54",
+  "today": "2026-11-14",
+  "generated_at": "2026-11-14 07:05",
   "phase": "减脂期 · 目标体脂 15%",
   "goals": [
     {
@@ -29,11 +29,11 @@
     },
     {
       "name": "实力举",
-      "current": "e1RM 67kg (65×1)",
+      "current": "e1RM 64kg (55×5)",
       "target": "70kg",
-      "pct": 95.95238095238095,
+      "pct": 91.66666666666667,
       "cls": "",
-      "note": "最近 11-06 65×1｜历史最佳 70kg"
+      "note": "最近 11-13 55×5｜历史最佳 70kg"
     },
     {
       "name": "引体向上",
@@ -63,27 +63,27 @@
   "gaps": [
     {
       "name": "胸",
-      "days": 3,
+      "days": 4,
       "last": "2026-11-10"
     },
     {
       "name": "背",
-      "days": 2,
+      "days": 3,
       "last": "2026-11-11"
     },
     {
       "name": "肩",
-      "days": 7,
-      "last": "2026-11-06"
+      "days": 1,
+      "last": "2026-11-13"
     },
     {
       "name": "腿",
-      "days": 5,
+      "days": 6,
       "last": "2026-11-08"
     },
     {
       "name": "硬拉",
-      "days": 2,
+      "days": 3,
       "last": "2026-11-11"
     },
     {
@@ -94,31 +94,21 @@
   ],
   "todaySummary": {
     "training": {
-      "label": "最近训练 11-11",
-      "date": "2026-11-11",
-      "sets": 12,
-      "volume": 3450.0,
-      "parts": "硬拉 / 背",
+      "label": "最近训练 11-13",
+      "date": "2026-11-13",
+      "sets": 9,
+      "volume": 1870.0,
+      "parts": "肩",
       "items": [
         {
-          "name": "M-TORTURE WIDE PULLDOWN REAR2",
-          "sets": "40×12 / 40×12 / 45×8",
-          "volume": 1320.0
+          "name": "实力举",
+          "sets": "55×5/5/5/3/4",
+          "volume": 1210.0
         },
         {
-          "name": "硬拉",
-          "sets": "70×5 / 100×5 / 120×2",
-          "volume": 1090.0
-        },
-        {
-          "name": "LAT PULL DOWN",
-          "sets": "40×12 / 35×8 / 35×8",
-          "volume": 1040.0
-        },
-        {
-          "name": "引体向上",
-          "sets": "自重×15/11/8",
-          "volume": 0.0
+          "name": "哑铃侧平举",
+          "sets": "15×12 / 15×12 / 12×12 / 12×12",
+          "volume": 660.0
         }
       ]
     },
@@ -129,20 +119,13 @@
       "protein_target": 130
     },
     "health": {
-      "sleep": 6.58,
+      "sleep": null,
       "steps": 107.0,
       "active": 32.0,
       "date": "2026-11-13"
     }
   },
   "series": [
-    {
-      "date": "2026-10-31",
-      "volume": 0,
-      "kcal": 3085,
-      "protein": 152,
-      "sleep": 4.73
-    },
     {
       "date": "2026-11-01",
       "volume": 13430,
@@ -229,13 +212,27 @@
     },
     {
       "date": "2026-11-13",
-      "volume": 0,
+      "volume": 1870,
       "kcal": 0,
       "protein": 0,
       "sleep": 6.58
+    },
+    {
+      "date": "2026-11-14",
+      "volume": 0,
+      "kcal": 0,
+      "protein": 0,
+      "sleep": 0
     }
   ],
   "sessions": [
+    {
+      "date": "2026-11-13",
+      "parts": "肩",
+      "sets": 9,
+      "volume": 1870,
+      "top": "实力举"
+    },
     {
       "date": "2026-11-12",
       "parts": "有氧",
@@ -270,13 +267,6 @@
       "sets": 0,
       "volume": 0,
       "top": "爬楼机"
-    },
-    {
-      "date": "2026-11-06",
-      "parts": "肩",
-      "sets": 20,
-      "volume": 4799,
-      "top": "实力举"
     }
   ],
   "lastHealthDate": "2026-11-13",
