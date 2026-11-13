@@ -251,9 +251,8 @@ def main():
     td = today.isoformat()
 
     def sleep_morning(d):
-        """Sleep hours of the night that ended on d — Apple attributes it to the previous day."""
-        prev = (datetime.strptime(d, "%Y-%m-%d").date() - timedelta(days=1)).isoformat()
-        return num((act_by_date.get(prev) or {}).get("睡眠时长")) or 0
+        """Hours of the night that ended on the morning of d (health-sync 按醒来日归集)."""
+        return num((act_by_date.get(d) or {}).get("睡眠时长")) or 0
 
     td_tr = by_date.get(td, {"sets": 0, "volume": 0.0, "items": {}, "parts": set()})
     # after midnight there is no session yet — show the latest strength day instead of "休息日"
