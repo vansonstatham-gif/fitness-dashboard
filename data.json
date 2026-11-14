@@ -1,6 +1,6 @@
 {
   "today": "2026-11-14",
-  "generated_at": "2026-11-14 23:00",
+  "generated_at": "2026-11-14 23:10",
   "phase": "减脂期 · 目标体脂 15%",
   "goals": [
     {
@@ -113,8 +113,8 @@
       ]
     },
     "diet": {
-      "kcal": 0.0,
-      "protein": 0.0,
+      "kcal": 1413.0,
+      "protein": 49.0,
       "line": 1800,
       "protein_target": 130
     },
@@ -220,8 +220,8 @@
     {
       "date": "2026-11-14",
       "volume": 0,
-      "kcal": 0,
-      "protein": 0,
+      "kcal": 1413,
+      "protein": 49,
       "sleep": 0
     }
   ],
