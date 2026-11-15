@@ -264,20 +264,25 @@ def main():
     def set_label(w, r):
         return (f"自重×{r:.0f}" if w == 0 else f"{w:.0f}×{r:.0f}")
 
-    items = []
-    for name, pairs in td_tr["items"].items():
+    def seq_of(pairs):
+        """Collapse a lift's sets into one display string (15/12/10, or 100×12/12)."""
         weights = {p[0] for p in pairs}
         if len(weights) == 1 and len(pairs) > 1:
             w0 = pairs[0][0]
             reps = "/".join(f"{r:.0f}" for _, r in pairs)
-            seq = f"自重×{reps}" if w0 == 0 else f"{w0:.0f}×{reps}"
-        elif len(pairs) == 1:
-            seq = set_label(*pairs[0])
-        else:
-            shown = pairs[:4]
-            seq = " / ".join(set_label(w, r) for w, r in shown) + (" …" if len(pairs) > 4 else "")
-        items.append({"name": name, "sets": seq, "volume": sum(a * b for a, b in pairs)})
-    items.sort(key=lambda i: -i["volume"])
+            return f"自重×{reps}" if w0 == 0 else f"{w0:.0f}×{reps}"
+        if len(pairs) == 1:
+            return set_label(*pairs[0])
+        shown = pairs[:4]
+        return " / ".join(set_label(w, r) for w, r in shown) + (" …" if len(pairs) > 4 else "")
+
+    def lift_list(item):
+        out = [{"name": n, "sets": seq_of(p), "volume": round(sum(a * b for a, b in p))}
+               for n, p in item["items"].items()]
+        out.sort(key=lambda i: -i["volume"])
+        return out
+
+    items = lift_list(td_tr)
 
     trained_today = by_date.get(td, {}).get("sets", 0) > 0
     today_summary = {
@@ -311,6 +316,19 @@ def main():
             "sleep": round(sleep_morning(d), 2),
         })
 
+    # ---------- training calendar (last ~7 months) ----------
+    cal_from = (today - timedelta(days=210)).isoformat()
+    calendar = {}
+    for d, item in by_date.items():
+        if d < cal_from or not item["items"]:
+            continue
+        calendar[d] = {
+            "parts": sorted(item["parts"]),
+            "sets": item["sets"],
+            "volume": round(item["volume"]),
+            "items": lift_list(item),
+        }
+
     # ---------- recent sessions ----------
     sessions = []
     for d in sorted(by_date, reverse=True)[:6]:
@@ -328,6 +346,7 @@ def main():
         "todaySummary": today_summary,
         "series": series,
         "sessions": sessions,
+        "calendar": calendar,
         "lastHealthDate": hdate,
         "rings": {
             "active": num((ring_by_date.get(hdate) or {}).get("活动能量")),
