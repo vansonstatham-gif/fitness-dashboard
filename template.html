@@ -54,6 +54,29 @@
   .legend i{display:inline-block;width:8px;height:8px;border-radius:2px;margin-right:4px}
   .empty{color:#6f7c92;font-size:12.5px;padding:6px 0}
   .foot{margin-top:26px;font-size:11px;color:#5f6b7f;text-align:center}
+  .cal-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+  .cal-month{font-size:14px;font-weight:600;color:#DDE6F2;letter-spacing:.3px}
+  .cal-month small{font-size:11px;color:#7d8ba1;font-weight:400;margin-left:8px}
+  .cal-nav{display:flex;gap:8px}
+  .cal-nav button{background:rgba(15,22,34,.85);border:1px solid rgba(120,140,180,.22);color:#B8C4D6;border-radius:10px;width:34px;height:30px;font-size:14px;cursor:pointer;line-height:1}
+  .cal-nav button:hover{border-color:rgba(79,195,247,.55);color:#8ED7FB}
+  .cal-nav button:disabled{opacity:.3;cursor:default;border-color:rgba(120,140,180,.22);color:#B8C4D6}
+  .cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}
+  .cal-wd{font-size:10.5px;color:#6f7c92;text-align:center;padding-bottom:2px}
+  .cal-cell{min-height:62px;border-radius:10px;border:1px solid rgba(120,140,180,.12);background:rgba(15,22,34,.6);padding:5px 6px;cursor:pointer}
+  .cal-cell.empty{border:1px solid transparent;background:transparent;cursor:default}
+  .cal-cell .d{font-size:10.5px;color:#7d8ba1}
+  .cal-cell.has .d{color:#E8EEF7;font-weight:600}
+  .cal-cell.today{box-shadow:inset 0 0 0 1px rgba(111,227,123,.55)}
+  .cal-cell.sel{outline:2px solid #4FC3F7;outline-offset:-1px}
+  .cal-tags{display:flex;flex-wrap:wrap;gap:3px;margin-top:5px}
+  .cal-tag{font-size:9px;padding:1px 5px;border-radius:6px;white-space:nowrap;line-height:1.5}
+  .cal-sum{font-size:9px;color:#7d8ba1;margin-top:3px}
+  .cal-detail{margin-top:16px;border-top:1px solid rgba(120,140,180,.16);padding-top:14px}
+  .cal-detail .cd-head{display:flex;flex-wrap:wrap;align-items:baseline;gap:10px;margin-bottom:10px}
+  .cal-detail .cd-date{font-size:13px;font-weight:600;color:#E8EEF7}
+  .cal-detail .cd-meta{font-size:11.5px;color:#8B97AB}
+  @media(max-width:760px){.cal-cell{min-height:52px;padding:4px}.cal-tag{font-size:8px;padding:0 3px}}
 </style>
 </head>
 <body>
@@ -89,6 +112,19 @@
       <div class="card"><div class="label">热量 / 蛋白</div><div class="mini" id="mCal"></div><div class="x" id="xCal"></div><div class="legend"><span><i style="background:#4FC3F7"></i>kcal</span><span><i style="background:#6FE37B"></i>蛋白 g</span></div></div>
       <div class="card"><div class="label">睡眠 (h)</div><div class="mini" id="mSleep"></div><div class="x" id="xSleep"></div></div>
     </div>
+  </div>
+
+  <div class="panel">
+    <h2><span class="dot"></span>训练日历</h2>
+    <div class="cal-head">
+      <div class="cal-month" id="calMonth"></div>
+      <div class="cal-nav">
+        <button id="calPrev" title="上个月">‹</button>
+        <button id="calNext" title="下个月">›</button>
+      </div>
+    </div>
+    <div class="cal-grid" id="calGrid"></div>
+    <div id="calDetail"></div>
   </div>
 
   <div class="panel">
@@ -176,6 +212,82 @@ mini("mCal", DATA.series, ["kcal","protein"],
      [Math.max(2200, ...DATA.series.map(x=>x.kcal||0)), Math.max(120, ...DATA.series.map(x=>x.protein||0))],
      [v=>num(v)+" kcal", v=>num(v)+" g 蛋白"]);
 mini("mSleep", DATA.series, ["sleep"], ["linear-gradient(180deg,#9B8CFF,#6C5CE7)"], [9], [v=>num(v,1)+" h"]);
+
+// ---------- training calendar ----------
+const CAL = DATA.calendar || {};
+const PART_COLORS = {"胸":"#4FC3F7","背":"#6FE37B","腿":"#FFB74D","肩":"#9B8CFF",
+                     "硬拉":"#FF8A65","RDL":"#FF8A65","有氧":"#4DD0E1","其他":"#8B97AB"};
+const KG = v => (v==null||isNaN(v)) ? "—" : Number(v).toLocaleString("en-US");
+let calMonth = DATA.today.slice(0,7);
+let calSel = null;
+
+function partTag(p){
+  const c = PART_COLORS[p] || "#8B97AB";
+  return `<span class="cal-tag" style="background:${c}22;color:${c}">${esc(p)}</span>`;
+}
+
+function renderCalendar(){
+  const [y,m] = calMonth.split("-").map(Number);
+  const pad = (new Date(y, m-1, 1).getDay() + 6) % 7;   // Monday-first
+  const ndays = new Date(y, m, 0).getDate();
+  let cells = "";
+  for(let i=0;i<pad;i++) cells += `<div class="cal-cell empty"></div>`;
+  let days=0, sets=0, vol=0;
+  for(let d=1; d<=ndays; d++){
+    const ds = `${calMonth}-${String(d).padStart(2,"0")}`;
+    const info = CAL[ds];
+    const cls = ["cal-cell"];
+    if(info){ cls.push("has"); days++; sets += info.sets||0; vol += info.volume||0; }
+    if(ds === DATA.today) cls.push("today");
+    if(ds === calSel) cls.push("sel");
+    cells += `<div class="${cls.join(" ")}"${info?` data-d="${ds}"`:""}>
+      <div class="d">${d}</div>
+      ${info ? `<div class="cal-tags">${(info.parts||[]).map(partTag).join("")}</div>
+                <div class="cal-sum">${info.sets?info.sets+"组":""}${info.volume?" · "+KG(info.volume):""}</div>` : ""}
+    </div>`;
+  }
+  document.getElementById("calGrid").innerHTML =
+    ["一","二","三","四","五","六","日"].map(w=>`<div class="cal-wd">${w}</div>`).join("") + cells;
+  document.getElementById("calMonth").innerHTML =
+    `${y} 年 ${m} 月<small>训练 ${days} 天 · ${sets} 组 · ${KG(vol)} kg</small>`;
+  document.querySelectorAll(".cal-cell.has").forEach(el=>{
+    el.addEventListener("click", ()=> { calSel = (calSel===el.dataset.d ? null : el.dataset.d); renderCalendar(); });
+  });
+  document.getElementById("calNext").disabled = calMonth >= DATA.today.slice(0,7);
+  renderDetail();
+}
+
+function renderDetail(){
+  const box = document.getElementById("calDetail");
+  const info = calSel && CAL[calSel];
+  if(!info){ box.innerHTML = `<div class="cal-detail"><div class="empty">点日历上的训练日，看当天练了什么。</div></div>`; return; }
+  box.innerHTML = `<div class="cal-detail">
+    <div class="cd-head">
+      <span class="cd-date">${calSel}</span>
+      <span class="cd-meta">${(info.parts||[]).join(" / ")} · ${info.sets} 组 · ${KG(info.volume)} kg</span>
+    </div>
+    <table><thead><tr><th>动作</th><th class="num">重量×次数</th><th class="num">容量</th></tr></thead><tbody>
+      ${info.items.map(i=>`<tr><td>${esc(i.name)}</td><td class="num">${i.sets}</td><td class="num">${KG(i.volume)}</td></tr>`).join("")}
+    </tbody></table>
+  </div>`;
+}
+
+function gotoMonth(delta){
+  const [y,m] = calMonth.split("-").map(Number);
+  const dt = new Date(y, m-1+delta, 1);
+  calMonth = `${dt.getFullYear()}-${String(dt.getMonth()+1).padStart(2,"0")}`;
+  const inMonth = Object.keys(CAL).filter(d=>d.slice(0,7)===calMonth).sort();
+  calSel = inMonth.length ? inMonth[inMonth.length-1] : null;
+  renderCalendar();
+}
+
+document.getElementById("calPrev").addEventListener("click", ()=>gotoMonth(-1));
+document.getElementById("calNext").addEventListener("click", ()=>gotoMonth(1));
+(function(){
+  const inMonth = Object.keys(CAL).filter(d=>d.slice(0,7)===calMonth).sort();
+  calSel = inMonth.length ? inMonth[inMonth.length-1] : null;
+  renderCalendar();
+})();
 
 // recent sessions
 const recEl = document.getElementById("recent");
