@@ -63,20 +63,57 @@
   .cal-nav button:disabled{opacity:.3;cursor:default;border-color:rgba(120,140,180,.22);color:#B8C4D6}
   .cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}
   .cal-wd{font-size:10.5px;color:#6f7c92;text-align:center;padding-bottom:2px}
-  .cal-cell{min-height:62px;border-radius:10px;border:1px solid rgba(120,140,180,.12);background:rgba(15,22,34,.6);padding:5px 6px;cursor:pointer}
+  .cal-cell{min-height:62px;border-radius:10px;border:1px solid rgba(120,140,180,.12);background:rgba(15,22,34,.6);padding:5px 6px;cursor:pointer;overflow:hidden}
   .cal-cell.empty{border:1px solid transparent;background:transparent;cursor:default}
   .cal-cell .d{font-size:10.5px;color:#7d8ba1}
   .cal-cell.has .d{color:#E8EEF7;font-weight:600}
   .cal-cell.today{box-shadow:inset 0 0 0 1px rgba(111,227,123,.55)}
   .cal-cell.sel{outline:2px solid #4FC3F7;outline-offset:-1px}
   .cal-tags{display:flex;flex-wrap:wrap;gap:3px;margin-top:5px}
-  .cal-tag{font-size:9px;padding:1px 5px;border-radius:6px;white-space:nowrap;line-height:1.5}
+  .cal-tag{font-size:9px;padding:1px 5px;border-radius:6px;white-space:nowrap;line-height:1.5;
+           background:color-mix(in srgb,var(--c) 16%,transparent);color:var(--c)}
   .cal-sum{font-size:9px;color:#7d8ba1;margin-top:3px}
   .cal-detail{margin-top:16px;border-top:1px solid rgba(120,140,180,.16);padding-top:14px}
   .cal-detail .cd-head{display:flex;flex-wrap:wrap;align-items:baseline;gap:10px;margin-bottom:10px}
   .cal-detail .cd-date{font-size:13px;font-weight:600;color:#E8EEF7}
   .cal-detail .cd-meta{font-size:11.5px;color:#8B97AB}
-  @media(max-width:760px){.cal-cell{min-height:52px;padding:4px}.cal-tag{font-size:8px;padding:0 3px}}
+  /* ---- mobile: square calendar cells, no wrapping ---- */
+  @media(max-width:760px){
+    .page{padding:18px 12px 44px}
+    .panel{padding:14px;border-radius:16px;margin-top:14px}
+    .panel h2{font-size:14px;margin-bottom:12px}
+    .header h1{font-size:19px}
+    .header .sub{font-size:11.5px}
+    .cal-head{align-items:flex-start;margin-bottom:10px;gap:8px}
+    .cal-month{font-size:13px;line-height:1.35}
+    .cal-month small{display:block;margin:2px 0 0;font-size:10px}
+    .cal-nav button{width:30px;height:26px;font-size:13px}
+    .cal-grid{gap:3px}
+    .cal-wd{font-size:9.5px;padding-bottom:4px}
+    .cal-cell{aspect-ratio:1/1;min-height:0;padding:3px;border-radius:8px}
+    .cal-cell .d{font-size:10px;line-height:1.2}
+    .cal-cell .cal-tags{gap:3px;margin-top:3px}
+    .cal-tag{font-size:0;width:7px;height:7px;border-radius:50%;padding:0;line-height:0;
+             background:var(--c)}
+    .cal-sum{display:none}
+    .cal-cell.sel{outline-width:2px}
+    /* keep wide tables from stretching the page */
+    #todayTraining,#calDetail,#recent{overflow-x:auto}
+    #todayTraining table th:last-child,#todayTraining table td:last-child,
+    #calDetail table th:last-child,#calDetail table td:last-child,
+    #recent table th:last-child,#recent table td:last-child{display:none}
+    .goal .nums{flex-wrap:wrap;gap:2px}
+    #today>.card:last-child{grid-column:1/-1}
+    .charts-panel .g3{grid-template-columns:1fr}
+    .charts-panel .mini{height:110px}
+    table{font-size:11.5px}
+    th{padding:5px 4px;font-size:10.5px}
+    td{padding:6px 4px}
+    td:first-child,th:first-child{padding-left:2px}
+    td:last-child,th:last-child{padding-right:2px}
+    .card .value{font-size:21px}
+    .card{padding:12px}
+  }
 </style>
 </head>
 <body>
@@ -105,7 +142,7 @@
     <div class="chips" id="gaps"></div>
   </div>
 
-  <div class="panel">
+  <div class="panel charts-panel">
     <h2><span class="dot"></span>近 14 天</h2>
     <div class="grid g3">
       <div class="card"><div class="label">训练容量 (kg)</div><div class="mini" id="mVol"></div><div class="x" id="xVol"></div></div>
@@ -140,6 +177,7 @@ const DATA = __DATA_JSON__;
 
 function esc(s){return String(s==null?"":s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));}
 function num(v,d=0){return (v==null||isNaN(v))?"—":Number(v).toFixed(d);}
+function KG(v){return (v==null||isNaN(v))?"—":Number(v).toLocaleString("en-US");}
 
 // header
 document.getElementById("sub").textContent =
@@ -164,7 +202,7 @@ DATA.goals.forEach(g=>{
 const t = DATA.todaySummary;
 const todayEl = document.getElementById("today");
 const cards = [
-  [t.training.label || "训练", t.training.sets? `${t.training.sets}<span class="unit">组</span>` : "未训练", `${num(t.training.volume)} kg 容量`, t.training.parts],
+  [t.training.label || "训练", t.training.sets? `${t.training.sets}<span class="unit">组</span>` : "未训练", `${KG(Math.round(t.training.volume))} kg 容量`, t.training.parts],
   ["热量", `${num(t.diet.kcal)}<span class="unit">/ ${t.diet.line}</span>`, `蛋白 ${num(t.diet.protein)}g / 目标 ${t.diet.protein_target}g`, null],
   ["睡眠", t.health.sleep!=null? `${num(t.health.sleep,2)}<span class="unit">h</span>` : "—",
     `步数 ${num(t.health.steps)} · 活动 ${num(t.health.active)}kcal`,
@@ -179,7 +217,7 @@ cards.forEach(([label,value,hint,extra])=>{
 const tt = document.getElementById("todayTraining");
 tt.innerHTML = t.training.items.length
   ? `<table><thead><tr><th>动作</th><th class="num">重量×次数</th><th class="num">容量</th></tr></thead><tbody>
-     ${t.training.items.map(i=>`<tr><td>${esc(i.name)}</td><td class="num">${i.sets}</td><td class="num">${num(i.volume)}</td></tr>`).join("")}
+     ${t.training.items.map(i=>`<tr><td>${esc(i.name)}</td><td class="num">${i.sets}</td><td class="num">${KG(i.volume)}</td></tr>`).join("")}
      </tbody></table>`
   : `<div class="empty">今天还没有训练记录。</div>`;
 
@@ -217,13 +255,12 @@ mini("mSleep", DATA.series, ["sleep"], ["linear-gradient(180deg,#9B8CFF,#6C5CE7)
 const CAL = DATA.calendar || {};
 const PART_COLORS = {"胸":"#4FC3F7","背":"#6FE37B","腿":"#FFB74D","肩":"#9B8CFF",
                      "硬拉":"#FF8A65","RDL":"#FF8A65","有氧":"#4DD0E1","其他":"#8B97AB"};
-const KG = v => (v==null||isNaN(v)) ? "—" : Number(v).toLocaleString("en-US");
 let calMonth = DATA.today.slice(0,7);
 let calSel = null;
 
 function partTag(p){
   const c = PART_COLORS[p] || "#8B97AB";
-  return `<span class="cal-tag" style="background:${c}22;color:${c}">${esc(p)}</span>`;
+  return `<span class="cal-tag" style="--c:${c}">${esc(p)}</span>`;
 }
 
 function renderCalendar(){
@@ -292,7 +329,7 @@ document.getElementById("calNext").addEventListener("click", ()=>gotoMonth(1));
 // recent sessions
 const recEl = document.getElementById("recent");
 recEl.innerHTML = `<table><thead><tr><th>日期</th><th>部位</th><th class="num">组数</th><th class="num">容量</th><th>主项</th></tr></thead><tbody>
-${DATA.sessions.map(s=>`<tr><td>${esc(s.date)}</td><td>${esc(s.parts)}</td><td class="num">${s.sets||"—"}</td><td class="num">${s.volume?num(s.volume):"—"}</td><td>${esc(s.top)}</td></tr>`).join("")}
+${DATA.sessions.map(s=>`<tr><td>${esc(s.date)}</td><td>${esc(s.parts)}</td><td class="num">${s.sets||"—"}</td><td class="num">${s.volume?KG(s.volume):"—"}</td><td>${esc(s.top)}</td></tr>`).join("")}
 </tbody></table>`;
 
 document.getElementById("foot").textContent = `数据每日自动重建 · 目标设定 2026-08-17 · 最近同步 ${DATA.lastHealthDate||"—"}`;
