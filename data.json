@@ -1,6 +1,6 @@
 {
   "today": "2026-11-16",
-  "generated_at": "2026-11-16 07:09",
+  "generated_at": "2026-11-16 23:00",
   "phase": "减脂期 · 目标体脂 15%",
   "goals": [
     {
@@ -9,7 +9,7 @@
       "target": "140kg",
       "pct": 79.16666666666667,
       "cls": "",
-      "note": "最近 11-10 95×5｜历史最佳 117kg"
+      "note": "最近 11-16 95×5｜历史最佳 117kg"
     },
     {
       "name": "深蹲",
@@ -63,8 +63,8 @@
   "gaps": [
     {
       "name": "胸",
-      "days": 6,
-      "last": "2026-11-10"
+      "days": 0,
+      "last": "2026-11-16"
     },
     {
       "name": "背",
@@ -94,33 +94,33 @@
   ],
   "todaySummary": {
     "training": {
-      "label": "最近训练 11-15",
-      "date": "2026-11-15",
-      "sets": 13,
-      "volume": 14395.0,
-      "parts": "腿",
+      "label": "训练",
+      "date": "2026-11-16",
+      "sets": 12,
+      "volume": 7310.0,
+      "parts": "胸",
       "items": [
         {
-          "name": "M-TORTURE POWER LEG PRESS",
-          "sets": "160×12 / 160×12 / 120×12 / 120×12",
-          "volume": 6720
+          "name": "PLATE LOADED INCLINE",
+          "sets": "110×12 / 110×12 / 80×8",
+          "volume": 3280
         },
         {
-          "name": "GLUTE DRIVE",
-          "sets": "100×12/12/12/12",
-          "volume": 4800
+          "name": "卧推",
+          "sets": "95×5/5/5/5/3/3",
+          "volume": 2470
         },
         {
-          "name": "深蹲",
-          "sets": "115×5/5/5/5/5",
-          "volume": 2875
+          "name": "STANDING MULTI FLIGHT",
+          "sets": "70×12 / 70×0 / 60×12",
+          "volume": 1560
         }
       ]
     },
     "diet": {
-      "kcal": 0.0,
-      "protein": 0.0,
-      "line": 1800,
+      "kcal": 624.0,
+      "protein": 36.0,
+      "line": 1900,
       "protein_target": 130
     },
     "health": {
@@ -224,13 +224,20 @@
     },
     {
       "date": "2026-11-16",
-      "volume": 0,
-      "kcal": 0,
-      "protein": 0,
+      "volume": 7310,
+      "kcal": 624,
+      "protein": 36,
       "sleep": 0
     }
   ],
   "sessions": [
+    {
+      "date": "2026-11-16",
+      "parts": "胸",
+      "sets": 12,
+      "volume": 7310,
+      "top": "PLATE LOADED INCLINE"
+    },
     {
       "date": "2026-11-15",
       "parts": "腿",
@@ -265,16 +272,33 @@
       "sets": 12,
       "volume": 8040,
       "top": "PLATE LOADED INCLINE"
-    },
-    {
-      "date": "2026-11-08",
-      "parts": "腿",
-      "sets": 11,
-      "volume": 12110,
-      "top": "M-TORTURE POWER LEG PRESS"
     }
   ],
   "calendar": {
+    "2026-11-16": {
+      "parts": [
+        "胸"
+      ],
+      "sets": 12,
+      "volume": 7310,
+      "items": [
+        {
+          "name": "PLATE LOADED INCLINE",
+          "sets": "110×12 / 110×12 / 80×8",
+          "volume": 3280
+        },
+        {
+          "name": "卧推",
+          "sets": "95×5/5/5/5/3/3",
+          "volume": 2470
+        },
+        {
+          "name": "STANDING MULTI FLIGHT",
+          "sets": "70×12 / 70×0 / 60×12",
+          "volume": 1560
+        }
+      ]
+    },
     "2026-11-15": {
       "parts": [
         "腿"
