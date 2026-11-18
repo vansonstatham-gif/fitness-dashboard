@@ -1,6 +1,6 @@
 {
-  "today": "2026-11-17",
-  "generated_at": "2026-11-17 23:00",
+  "today": "2026-11-18",
+  "generated_at": "2026-11-18 23:00",
   "phase": "减脂期 · 目标体脂 15%",
   "goals": [
     {
@@ -25,7 +25,7 @@
       "target": "210kg",
       "pct": 60.952380952380956,
       "cls": "",
-      "note": "最近 11-11 120×2｜历史最佳 134kg"
+      "note": "最近 11-18 120×2｜历史最佳 134kg"
     },
     {
       "name": "实力举",
@@ -37,11 +37,11 @@
     },
     {
       "name": "引体向上",
-      "current": "15 次",
+      "current": "17 次",
       "target": "20 次",
-      "pct": 75.0,
+      "pct": 85.0,
       "cls": "",
-      "note": "最近 11-11｜历史最佳 18 次"
+      "note": "最近 11-18｜历史最佳 18 次"
     },
     {
       "name": "体脂率",
@@ -63,28 +63,28 @@
   "gaps": [
     {
       "name": "胸",
-      "days": 1,
+      "days": 2,
       "last": "2026-11-16"
     },
     {
       "name": "背",
-      "days": 6,
-      "last": "2026-11-11"
+      "days": 0,
+      "last": "2026-11-18"
     },
     {
       "name": "肩",
-      "days": 4,
+      "days": 5,
       "last": "2026-11-13"
     },
     {
       "name": "腿",
-      "days": 2,
+      "days": 3,
       "last": "2026-11-15"
     },
     {
       "name": "硬拉",
-      "days": 6,
-      "last": "2026-11-11"
+      "days": 0,
+      "last": "2026-11-18"
     },
     {
       "name": "RDL",
@@ -94,33 +94,38 @@
   ],
   "todaySummary": {
     "training": {
-      "label": "最近训练 11-16",
-      "date": "2026-11-16",
-      "sets": 12,
-      "volume": 7310.0,
-      "parts": "胸",
+      "label": "训练",
+      "date": "2026-11-18",
+      "sets": 11,
+      "volume": 3120.0,
+      "parts": "硬拉 / 背",
       "items": [
         {
-          "name": "PLATE LOADED INCLINE",
-          "sets": "110×12 / 110×12 / 80×8",
-          "volume": 3280
+          "name": "M-TORTURE WIDE PULLDOWN REAR2",
+          "sets": "45×10 / 45×10 / 35×12 / 35×12 …",
+          "volume": 2100
         },
         {
-          "name": "卧推",
-          "sets": "95×5/5/5/5/3/3",
-          "volume": 2470
+          "name": "LAT PULL DOWN",
+          "sets": "35×12 / 30×12",
+          "volume": 780
         },
         {
-          "name": "STANDING MULTI FLIGHT",
-          "sets": "70×12 / 70×0 / 60×12",
-          "volume": 1560
+          "name": "硬拉",
+          "sets": "120×2",
+          "volume": 240
+        },
+        {
+          "name": "引体向上",
+          "sets": "自重×17/10/10",
+          "volume": 0
         }
       ]
     },
     "diet": {
-      "kcal": 959.0,
-      "protein": 52.0,
-      "line": 1800,
+      "kcal": 2039.0,
+      "protein": 112.0,
+      "line": 1900,
       "protein_target": 130
     },
     "health": {
@@ -131,13 +136,6 @@
     }
   },
   "series": [
-    {
-      "date": "2026-11-04",
-      "volume": 0,
-      "kcal": 1800,
-      "protein": 98,
-      "sleep": 4.61
-    },
     {
       "date": "2026-11-05",
       "volume": 3520,
@@ -228,9 +226,23 @@
       "kcal": 959,
       "protein": 52,
       "sleep": 0
+    },
+    {
+      "date": "2026-11-18",
+      "volume": 3120,
+      "kcal": 2039,
+      "protein": 112,
+      "sleep": 0
     }
   ],
   "sessions": [
+    {
+      "date": "2026-11-18",
+      "parts": "硬拉 / 背",
+      "sets": 11,
+      "volume": 3120,
+      "top": "M-TORTURE WIDE PULLDOWN REAR2"
+    },
     {
       "date": "2026-11-17",
       "parts": "有氧",
@@ -265,16 +277,39 @@
       "sets": 0,
       "volume": 0,
       "top": "爬楼机"
-    },
-    {
-      "date": "2026-11-11",
-      "parts": "硬拉 / 背",
-      "sets": 12,
-      "volume": 3450,
-      "top": "M-TORTURE WIDE PULLDOWN REAR2"
     }
   ],
   "calendar": {
+    "2026-11-18": {
+      "parts": [
+        "硬拉",
+        "背"
+      ],
+      "sets": 11,
+      "volume": 3120,
+      "items": [
+        {
+          "name": "M-TORTURE WIDE PULLDOWN REAR2",
+          "sets": "45×10 / 45×10 / 35×12 / 35×12 …",
+          "volume": 2100
+        },
+        {
+          "name": "LAT PULL DOWN",
+          "sets": "35×12 / 30×12",
+          "volume": 780
+        },
+        {
+          "name": "硬拉",
+          "sets": "120×2",
+          "volume": 240
+        },
+        {
+          "name": "引体向上",
+          "sets": "自重×17/10/10",
+          "volume": 0
+        }
+      ]
+    },
     "2026-11-17": {
       "parts": [
         "有氧"
@@ -3481,46 +3516,6 @@
           "name": "引体向上",
           "sets": "自重×6/8/10/11",
           "volume": 0
-        }
-      ]
-    },
-    "2026-04-21": {
-      "parts": [
-        "其他",
-        "胸"
-      ],
-      "sets": 18,
-      "volume": 6195,
-      "items": [
-        {
-          "name": "绳索臂屈伸",
-          "sets": "40×12 / 40×12 / 50×12 / 40×12",
-          "volume": 2040
-        },
-        {
-          "name": "卧推",
-          "sets": "95×3 / 95×4 / 95×5 / 90×6",
-          "volume": 1680
-        },
-        {
-          "name": "DOWNWARD OBLIQUE CHEST TRAINER",
-          "sets": "30×12/12/12/12",
-          "volume": 1440
-        },
-        {
-          "name": "龙门架夹胸",
-          "sets": "20×12/12",
-          "volume": 480
-        },
-        {
-          "name": "ISO-LATERAL SUPER INCLINE PRESS",
-          "sets": "30×6 / 20×6 / 20×4",
-          "volume": 380
-        },
-        {
-          "name": "CHEST PRESS",
-          "sets": "25×7",
-          "volume": 175
         }
       ]
     }
