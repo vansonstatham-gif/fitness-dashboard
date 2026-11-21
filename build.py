@@ -213,11 +213,33 @@ def main():
         for p in item["parts"]:
             if d > last_seen[p]:
                 last_seen[p] = d
-    gaps = []
-    for p in ["胸", "背", "肩", "腿", "硬拉", "RDL"]:
-        ls = last_seen.get(p)
-        days = (today - datetime.strptime(ls, "%Y-%m-%d").date()).days if ls else None
-        gaps.append({"name": p, "days": days, "last": ls})
+
+    LIFTS = {
+        "卧推": ("卧推", "BENCH"),
+        "深蹲": ("深蹲", "SQUAT"),
+        "硬拉": ("硬拉", "DEADLIFT", "DEAD LIFT"),
+        "实力举": ("实力举",),
+        "引体向上": ("引体",),
+    }
+    lift_last = defaultdict(str)
+    for x in tr_rows:
+        d = day(x.get("日期"))
+        name = (s(x.get("动作")) or "").upper()
+        if not d or not name:
+            continue
+        for k, keys in LIFTS.items():
+            if any(q in name for q in keys) and d > lift_last[k]:
+                lift_last[k] = d
+
+    def gap(name, last):
+        days = (today - datetime.strptime(last, "%Y-%m-%d").date()).days if last else None
+        return {"name": name, "days": days, "last": last}
+
+    gap_groups = [
+        {"title": "分化训练", "items": [gap(p, last_seen.get(p)) for p in ["胸", "背", "肩", "腿", "有氧"]]},
+        {"title": "三大项", "items": [gap(p, lift_last.get(p)) for p in ["卧推", "深蹲", "硬拉"]]},
+        {"title": "专项", "items": [gap(p, lift_last.get(p)) for p in ["实力举", "引体向上"]]},
+    ]
 
     # ---------- diet / health by date ----------
     diet_by_date = defaultdict(lambda: {"kcal": 0.0, "protein": 0.0, "items": []})
@@ -342,7 +364,7 @@ def main():
         "generated_at": datetime.now().strftime("%Y-%m-%d %H:%M"),
         "phase": "减脂期 · 目标体脂 15%",
         "goals": goals,
-        "gaps": gaps,
+        "gapGroups": gap_groups,
         "todaySummary": today_summary,
         "series": series,
         "sessions": sessions,
