@@ -109,7 +109,8 @@ def main():
     # ---------- training ----------
     lifts = defaultdict(list)
     pullups = []  # (date, reps) — bodyweight, so scored by reps instead of e1RM
-    by_date = defaultdict(lambda: {"sets": 0, "volume": 0.0, "items": defaultdict(list), "parts": set()})
+    by_date = defaultdict(lambda: {"sets": 0, "volume": 0.0, "items": defaultdict(list),
+                                  "parts": set(), "partVol": defaultdict(float)})
     for x in tr_rows:
         d = day(x.get("日期"))
         name = s(x.get("动作")).strip()
@@ -124,6 +125,7 @@ def main():
             item["sets"] += 1
         item["volume"] += vol
         item["parts"].add(part)
+        item["partVol"][part] += vol
         item["items"][name].append((s(x.get("时间")), w, reps))
 
         if w > 0 and reps > 0:
@@ -276,7 +278,7 @@ def main():
         """Hours of the night that ended on the morning of d (health-sync 按醒来日归集)."""
         return num((act_by_date.get(d) or {}).get("睡眠时长")) or 0
 
-    td_tr = by_date.get(td, {"sets": 0, "volume": 0.0, "items": {}, "parts": set()})
+    td_tr = by_date.get(td, {"sets": 0, "volume": 0.0, "items": {}, "parts": set(), "partVol": {}})
     # after midnight there is no session yet — show the latest strength day instead of "休息日"
     strength_days = [d for d, v in by_date.items() if v["sets"] > 0]
     tr_date = td if td_tr["sets"] else (max(strength_days) if strength_days else td)
@@ -328,7 +330,8 @@ def main():
             "label": "训练" if tr_date == td else f"最近训练 {tr_date[5:]}",
             "date": tr_date,
             "sets": td_tr["sets"], "volume": td_tr["volume"],
-            "parts": " / ".join(sorted(td_tr["parts"])) if td_tr["parts"] else "休息日",
+            "parts": (" / ".join(p for p, _ in sorted(td_tr["partVol"].items(), key=lambda kv: -kv[1]))
+                      if td_tr["parts"] else "休息日"),
             "items": items,
         },
         "diet": {"kcal": td_diet["kcal"], "protein": td_diet["protein"],
@@ -361,7 +364,7 @@ def main():
         if d < cal_from or not item["items"]:
             continue
         calendar[d] = {
-            "parts": sorted(item["parts"]),
+            "parts": [p for p, _ in sorted(item["partVol"].items(), key=lambda kv: -kv[1])],
             "sets": item["sets"],
             "volume": round(item["volume"]),
             "items": lift_list(item),

@@ -60,18 +60,21 @@
   .cal-nav button{background:rgba(15,22,34,.85);border:1px solid rgba(120,140,180,.22);color:#B8C4D6;border-radius:10px;width:34px;height:30px;font-size:14px;cursor:pointer;line-height:1}
   .cal-nav button:hover{border-color:rgba(79,195,247,.55);color:#8ED7FB}
   .cal-nav button:disabled{opacity:.3;cursor:default;border-color:rgba(120,140,180,.22);color:#B8C4D6}
+  .cal-legend{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:12px}
+  .cal-legend span{display:flex;align-items:center;gap:5px;font-size:10.5px;color:#8B97AB}
+  .cal-legend i{width:9px;height:9px;border-radius:3px}
   .cal-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}
   .cal-wd{font-size:10.5px;color:#6f7c92;text-align:center;padding-bottom:2px}
   .cal-cell{min-height:62px;border-radius:10px;border:1px solid rgba(120,140,180,.12);background:rgba(15,22,34,.6);padding:5px 6px;cursor:pointer;overflow:hidden}
   .cal-cell.empty{border:1px solid transparent;background:transparent;cursor:default}
   .cal-cell .d{font-size:10.5px;color:#7d8ba1}
-  .cal-cell.has .d{color:#E8EEF7;font-weight:600}
+  .cal-cell.has .d{color:#fff;font-weight:700;text-shadow:0 1px 3px rgba(0,0,0,.6)}
   .cal-cell.today{box-shadow:inset 0 0 0 1px rgba(111,227,123,.55)}
   .cal-cell.sel{outline:2px solid #4FC3F7;outline-offset:-1px}
   .cal-tags{display:flex;flex-wrap:wrap;gap:3px;margin-top:5px}
   .cal-tag{font-size:9px;padding:1px 5px;border-radius:6px;white-space:nowrap;line-height:1.5;
-           background:color-mix(in srgb,var(--c) 16%,transparent);color:var(--c)}
-  .cal-sum{font-size:9px;color:#7d8ba1;margin-top:3px}
+           background:rgba(6,10,18,.38);color:#fff}
+  .cal-sum{font-size:9px;color:rgba(255,255,255,.85);margin-top:3px}
   .cal-detail{margin-top:16px;border-top:1px solid rgba(120,140,180,.16);padding-top:14px}
   .cal-detail .cd-head{display:flex;flex-wrap:wrap;align-items:baseline;gap:10px;margin-bottom:10px}
   .cal-detail .cd-date{font-size:13px;font-weight:600;color:#E8EEF7}
@@ -90,11 +93,11 @@
     .cal-grid{gap:3px}
     .cal-wd{font-size:9.5px;padding-bottom:4px}
     .cal-cell{aspect-ratio:1/1;min-height:0;padding:3px;border-radius:8px}
-    .cal-cell .d{font-size:10px;line-height:1.2}
-    .cal-cell .cal-tags{gap:3px;margin-top:3px}
-    .cal-tag{font-size:0;width:7px;height:7px;border-radius:50%;padding:0;line-height:0;
-             background:var(--c)}
-    .cal-sum{display:none}
+    .cal-cell .d{font-size:11px;line-height:1.2;font-weight:700}
+    .cal-cell .cal-tags,.cal-sum{display:none}
+    .cal-legend{gap:7px;margin-bottom:10px}
+    .cal-legend span{font-size:9.5px;gap:4px}
+    .cal-legend i{width:8px;height:8px}
     .cal-cell.sel{outline-width:2px}
     /* keep wide tables from stretching the page */
     #todayTraining,#calDetail,#recent{overflow-x:auto}
@@ -159,6 +162,7 @@
         <button id="calNext" title="下个月">›</button>
       </div>
     </div>
+    <div class="cal-legend" id="calLegend"></div>
     <div class="cal-grid" id="calGrid"></div>
     <div id="calDetail"></div>
   </div>
@@ -364,7 +368,7 @@ window.addEventListener("resize", ()=>{
 // ---------- training calendar ----------
 const CAL = DATA.calendar || {};
 const PART_COLORS = {"胸":"#4FC3F7","背":"#6FE37B","腿":"#FFB74D","肩":"#9B8CFF",
-                     "硬拉":"#FF8A65","RDL":"#FF8A65","有氧":"#4DD0E1","其他":"#8B97AB"};
+                     "硬拉":"#FF8A65","有氧":"#4DD0E1","其他":"#8B97AB"};
 let calMonth = DATA.today.slice(0,7);
 let calSel = null;
 
@@ -372,6 +376,34 @@ function partTag(p){
   const c = PART_COLORS[p] || "#8B97AB";
   return `<span class="cal-tag" style="--c:${c}">${esc(p)}</span>`;
 }
+
+function hexA(hex, a){
+  return hex + Math.round(a*255).toString(16).padStart(2,"0");
+}
+
+// fill the whole cell so a month reads as a heat map, not a row of dots
+function cellFill(parts){
+  const cs = (parts||[]).map(p=>PART_COLORS[p] || "#8B97AB");
+  if(!cs.length) return {bg:"", bd:""};
+  let bg;
+  if(cs.length === 1){
+    bg = `linear-gradient(155deg,${hexA(cs[0],.82)},${hexA(cs[0],.44)})`;
+  } else {
+    const n = cs.length;
+    const stops = cs.map((c,i)=>
+      `${hexA(c,.82)} ${(i*100/n).toFixed(1)}% ${((i+1)*100/n).toFixed(1)}%`).join(",");
+    bg = `linear-gradient(155deg,${stops})`;
+  }
+  return {bg, bd: hexA(cs[0], .55)};
+}
+
+// legend
+(function(){
+  const el = document.getElementById("calLegend");
+  if(!el) return;
+  el.innerHTML = Object.keys(PART_COLORS).map(p=>
+    `<span><i style="background:${PART_COLORS[p]}"></i>${esc(p)}</span>`).join("");
+})();
 
 function renderCalendar(){
   const [y,m] = calMonth.split("-").map(Number);
@@ -387,7 +419,12 @@ function renderCalendar(){
     if(info){ cls.push("has"); days++; sets += info.sets||0; vol += info.volume||0; }
     if(ds === DATA.today) cls.push("today");
     if(ds === calSel) cls.push("sel");
-    cells += `<div class="${cls.join(" ")}"${info?` data-d="${ds}"`:""}>
+    let style = "";
+    if(info){
+      const f = cellFill(info.parts);
+      style = ` style="background:${f.bg};border-color:${f.bd}"`;
+    }
+    cells += `<div class="${cls.join(" ")}"${info?` data-d="${ds}"`:""}${style}>
       <div class="d">${d}</div>
       ${info ? `<div class="cal-tags">${(info.parts||[]).map(partTag).join("")}</div>
                 <div class="cal-sum">${info.sets?info.sets+"组":""}${info.volume?" · "+KG(info.volume):""}</div>` : ""}
