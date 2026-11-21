@@ -46,12 +46,9 @@
   .chip.ok{border-color:rgba(111,227,123,.4);color:#9DE8A7}
   .chip.warn{border-color:rgba(255,183,77,.4);color:#FFCC80}
   .chip.bad{border-color:rgba(255,110,110,.45);color:#FF9E9E}
-  .mini{display:flex;align-items:stretch;gap:3px;height:92px;margin-top:10px;overflow:hidden}
-  .mini .col{flex:1;display:flex;flex-direction:row;align-items:flex-end;gap:2px;height:100%}
-  .mini .col i{display:block;border-radius:3px 3px 0 0;min-height:2px;flex:1 1 0}
-  .x{display:flex;margin-top:6px}
-  .x span{flex:1;font-size:9px;color:#6f7c92;white-space:nowrap}
-  .x span:last-child{text-align:right}
+  .chart{width:100%;margin-top:10px}
+  .chart svg{display:block;width:100%;height:auto;overflow:visible}
+  .chart text{font-family:'PingFang SC','Roboto','Segoe UI',Arial,sans-serif}
   .legend{font-size:11px;color:#7d8ba1;display:flex;gap:14px;margin-top:8px}
   .legend i{display:inline-block;width:8px;height:8px;border-radius:2px;margin-right:4px}
   .empty{color:#6f7c92;font-size:12.5px;padding:6px 0}
@@ -106,8 +103,7 @@
     #recent table th:last-child,#recent table td:last-child{display:none}
     .goal .nums{flex-wrap:wrap;gap:2px}
     #today>.card:last-child{grid-column:1/-1}
-    .charts-panel .g3{grid-template-columns:1fr}
-    .charts-panel .mini{height:110px}
+    .charts-panel .g2{grid-template-columns:1fr}
     table{font-size:11.5px}
     th{padding:5px 4px;font-size:10.5px}
     td{padding:6px 4px}
@@ -146,10 +142,11 @@
 
   <div class="panel charts-panel">
     <h2><span class="dot"></span>近 14 天</h2>
-    <div class="grid g3">
-      <div class="card"><div class="label">训练容量 (kg)</div><div class="mini" id="mVol"></div><div class="x" id="xVol"></div></div>
-      <div class="card"><div class="label">热量 / 蛋白</div><div class="mini" id="mCal"></div><div class="x" id="xCal"></div><div class="legend"><span><i style="background:#4FC3F7"></i>kcal</span><span><i style="background:#6FE37B"></i>蛋白 g</span></div></div>
-      <div class="card"><div class="label">睡眠 (h)</div><div class="mini" id="mSleep"></div><div class="x" id="xSleep"></div></div>
+    <div class="grid g2">
+      <div class="card"><div class="label">训练容量 (kg)</div><div class="chart" id="cVol"></div></div>
+      <div class="card"><div class="label">热量 (kcal)</div><div class="chart" id="cKcal"></div></div>
+      <div class="card"><div class="label">蛋白 (g)</div><div class="chart" id="cProt"></div></div>
+      <div class="card"><div class="label">睡眠 (h)</div><div class="chart" id="cSleep"></div></div>
     </div>
   </div>
 
@@ -234,28 +231,135 @@ const gapsEl = document.getElementById("gaps");
     `<div class="gap-group"><div class="gap-title">${esc(grp.title)}</div><div class="chips">${chips}</div></div>`);
 });
 
-// mini charts
-function mini(el, xs, keys, colors, maxes, fmts){
-  const host = document.getElementById(el);
-  const xhost = document.getElementById(el.replace("m","x"));
-  host.innerHTML = xs.map(x=>{
-    const bars = keys.map((k,i)=>{
-      const v = x[k]||0;
-      const max = maxes[i] || Math.max(1, ...xs.map(y=>y[k]||0));
-      const h = v>0 ? Math.max(2, Math.min(100, Math.round(v/max*100))) : 0;
-      return `<i style="height:${h}%;background:${colors[i]}" title="${x.date} ${fmts[i](v)}"></i>`;
-    }).join("");
-    return `<div class="col">${bars}</div>`;
-  }).join("");
-  xhost.innerHTML = xs.map((x,i)=>
-    `<span>${i===0 ? x.date.slice(5) : (i===xs.length-1 ? x.date.slice(5) : "")}</span>`).join("");
+// ---------- 14-day line charts ----------
+const AXIS = "#6f7c92";
+
+function kfmt(v){
+  const n = Number(v) || 0;
+  if (n >= 10000) return Math.round(n/1000) + "k";
+  if (n >= 1000) return (n/1000).toFixed(1) + "k";
+  return String(Math.round(n));
 }
-mini("mVol", DATA.series, ["volume"], ["linear-gradient(180deg,#4FC3F7,#2F80ED)"], [], [v=>num(v)+" kg"]);
-mini("mCal", DATA.series, ["kcal","protein"],
-     ["linear-gradient(180deg,#4FC3F7,#2F80ED)","linear-gradient(180deg,#6FE37B,#38B24A)"],
-     [Math.max(2200, ...DATA.series.map(x=>x.kcal||0)), Math.max(120, ...DATA.series.map(x=>x.protein||0))],
-     [v=>num(v)+" kcal", v=>num(v)+" g 蛋白"]);
-mini("mSleep", DATA.series, ["sleep"], ["linear-gradient(180deg,#9B8CFF,#6C5CE7)"], [9], [v=>num(v,1)+" h"]);
+
+function lineChart(hostId, xs, series, opts){
+  const host = document.getElementById(hostId);
+  if (!host) return;
+  const W = Math.max(240, Math.round(host.clientWidth || 320));
+  const H = opts.height || 172;
+  const PL = 34, PR = opts.rightAxis ? 32 : 14, PT = 26, PB = 24;
+  const iw = Math.max(40, W - PL - PR), ih = H - PT - PB;
+  const n = xs.length;
+  const base = PT + ih;
+  const fs = W >= 520 ? 10 : 9;
+  const ch = fs * 0.58;
+
+  const S = series.map(s=>{
+    const vals = xs.map(x=>Number(x[s.key])||0);
+    let mx = Math.max(1, ...vals) * 1.15;
+    if (s.max != null) mx = s.max;
+    return Object.assign({}, s, {vals, mx, y: v => base - (v/mx)*ih});
+  });
+  const xAt = i => n===1 ? PL + iw/2 : PL + i*iw/(n-1);
+
+  let g = `<svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" xmlns="http://www.w3.org/2000/svg">`;
+  g += `<defs><linearGradient id="${hostId}G" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0%" stop-color="${S[0].color}" stop-opacity=".28"/>
+    <stop offset="100%" stop-color="${S[0].color}" stop-opacity="0"/></linearGradient></defs>`;
+
+  // gridlines + left axis
+  [0, .5, 1].forEach(f=>{
+    const y = base - f*ih;
+    g += `<line x1="${PL}" y1="${y}" x2="${PL+iw}" y2="${y}" stroke="rgba(120,140,180,.16)" stroke-width="1"/>`;
+    g += `<text x="${PL-7}" y="${y+3.5}" fill="${AXIS}" font-size="${fs}" text-anchor="end">${kfmt(S[0].mx*f)}</text>`;
+  });
+  if (S[1]){
+    [0, .5, 1].forEach(f=>{
+      const y = base - f*ih;
+      g += `<text x="${PL+iw+7}" y="${y+3.5}" fill="${S[1].color}" opacity=".75" font-size="${fs}">${kfmt(S[1].mx*f)}</text>`;
+    });
+  }
+
+  // area under first line
+  if (opts.area){
+    let ap = `M ${xAt(0)} ${base}`;
+    S[0].vals.forEach((v,i)=>{ ap += ` L ${xAt(i)} ${S[0].y(v)}`; });
+    ap += ` L ${xAt(n-1)} ${base} Z`;
+    g += `<path d="${ap}" fill="url(#${hostId}G)"/>`;
+  }
+
+  // lines + dots
+  S.forEach(s=>{
+    const pts = s.vals.map((v,i)=>`${xAt(i)},${s.y(v)}`).join(" ");
+    g += `<polyline points="${pts}" fill="none" stroke="${s.color}" stroke-width="2"
+           stroke-linejoin="round" stroke-linecap="round"/>`;
+    s.vals.forEach((v,i)=>{
+      if (v > 0) g += `<circle cx="${xAt(i)}" cy="${s.y(v)}" r="2.6" fill="${s.color}"/>`;
+    });
+  });
+
+  // value labels (peak + latest always win, rest fill in if they fit)
+  const labels = [];
+  S.forEach((s, si)=>{
+    const mxv = Math.max(...s.vals);
+    s.vals.forEach((v,i)=>{
+      if (v <= 0) return;
+      const half = (s.fmt ? s.fmt(v) : kfmt(v)).length * ch / 2;
+      labels.push({
+        x: Math.max(PL + half + 2, Math.min(PL + iw - half - 2, xAt(i))),
+        y: Math.max(PT + fs, Math.min(base - 4, s.y(v) + (s.below ? fs + 8 : -7))),
+        si,
+        t: s.fmt ? s.fmt(v) : kfmt(v),
+        color: s.color,
+        pr: (v === mxv ? 2 : 0) + (i === n-1 ? 2 : 0),
+      });
+    });
+  });
+  labels.sort((a,b)=> b.pr - a.pr || a.x - b.x);
+  const placed = [];
+  labels.forEach(L=>{
+    const half = L.t.length * ch / 2;
+    const left = L.x - half, right = L.x + half;
+    const yTop = L.y - fs, yBot = L.y + 3;
+    const hit = placed.some(p => !(right < p.left-1.5 || left > p.right+1.5) && !(yBot < p.yTop || yTop > p.yBot));
+    if (hit) return;
+    placed.push({left, right, yTop, yBot, x: L.x, y: L.y, t: L.t, color: L.color});
+  });
+  placed.sort((a,b)=> a.x - b.x).forEach(L=>{
+    g += `<text x="${L.x}" y="${L.y}" fill="${L.color}" font-size="${fs}" font-weight="600"
+           text-anchor="middle" paint-order="stroke" stroke="#101724" stroke-width="3"
+           stroke-linejoin="round">${esc(L.t)}</text>`;
+  });
+
+  // x axis
+  const step = W >= 560 ? 3 : 5;
+  xs.forEach((x,i)=>{
+    if (i !== 0 && i !== n-1 && i % step !== 0) return;
+    g += `<text x="${xAt(i)}" y="${H-6}" fill="${AXIS}" font-size="${fs}"
+           text-anchor="${i===0 ? "start" : i===n-1 ? "end" : "middle"}">${x.date.slice(5)}</text>`;
+  });
+
+  g += `</svg>`;
+  host.innerHTML = g;
+}
+
+function renderCharts(){
+  const xs = DATA.series;
+  lineChart("cVol", xs, [{key:"volume", color:"#4FC3F7", fmt:v=>kfmt(v)}],
+            {area:true, height:164});
+  lineChart("cKcal", xs, [{key:"kcal", color:"#4FC3F7", fmt:v=>String(Math.round(v))}],
+            {area:true, height:164});
+  lineChart("cProt", xs, [{key:"protein", color:"#6FE37B", fmt:v=>String(Math.round(v))}],
+            {area:true, height:146});
+  lineChart("cSleep", xs, [{key:"sleep", color:"#9B8CFF", fmt:v=>Number(v).toFixed(1)}],
+            {area:true, height:146});
+}
+renderCharts();
+
+let _rz;
+window.addEventListener("resize", ()=>{
+  clearTimeout(_rz);
+  _rz = setTimeout(renderCharts, 150);
+});
 
 // ---------- training calendar ----------
 const CAL = DATA.calendar || {};
