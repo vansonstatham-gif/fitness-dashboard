@@ -39,6 +39,8 @@
   td{padding:8px;border-bottom:1px solid rgba(120,140,180,.08);color:#DCE4F0}
   td.num{text-align:right;font-variant-numeric:tabular-nums}
   .chips{display:flex;flex-wrap:wrap;gap:8px}
+  .gap-group+.gap-group{margin-top:13px;padding-top:11px;border-top:1px solid rgba(120,140,180,.10)}
+  .gap-title{font-size:11px;color:#7d8ba1;letter-spacing:.6px;margin-bottom:8px}
   .chip{font-size:12px;padding:7px 12px;border-radius:10px;background:rgba(15,22,34,.8);border:1px solid rgba(120,140,180,.16);color:#B8C4D6}
   .chip b{color:#E8EEF7}
   .chip.ok{border-color:rgba(111,227,123,.4);color:#9DE8A7}
@@ -139,7 +141,7 @@
 
   <div class="panel">
     <h2><span class="dot"></span>部位空窗雷达</h2>
-    <div class="chips" id="gaps"></div>
+    <div id="gaps"></div>
   </div>
 
   <div class="panel charts-panel">
@@ -223,9 +225,13 @@ tt.innerHTML = t.training.items.length
 
 // gaps
 const gapsEl = document.getElementById("gaps");
-DATA.gaps.forEach(g=>{
-  const cls = g.days==null? "" : g.days<=3? " ok" : g.days<=7? "" : g.days<=14? " warn" : " bad";
-  gapsEl.insertAdjacentHTML("beforeend", `<div class="chip${cls}">${esc(g.name)} ${g.days==null?"<b>无记录</b>":`<b>${g.days} 天</b>`}</div>`);
+(DATA.gapGroups||[]).forEach(grp=>{
+  const chips = grp.items.map(g=>{
+    const cls = g.days==null? "" : g.days<=3? " ok" : g.days<=7? "" : g.days<=14? " warn" : " bad";
+    return `<div class="chip${cls}">${esc(g.name)} ${g.days==null?"<b>无记录</b>":`<b>${g.days} 天</b>`}</div>`;
+  }).join("");
+  gapsEl.insertAdjacentHTML("beforeend",
+    `<div class="gap-group"><div class="gap-title">${esc(grp.title)}</div><div class="chips">${chips}</div></div>`);
 });
 
 // mini charts
