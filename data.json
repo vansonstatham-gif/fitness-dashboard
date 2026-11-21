@@ -1,6 +1,6 @@
 {
-  "today": "2026-11-20",
-  "generated_at": "2026-11-20 23:00",
+  "today": "2026-11-21",
+  "generated_at": "2026-11-21 17:33",
   "phase": "减脂期 · 目标体脂 15%",
   "goals": [
     {
@@ -29,11 +29,11 @@
     },
     {
       "name": "实力举",
-      "current": "e1RM 64kg (55×5)",
+      "current": "e1RM 67kg (59×4)",
       "target": "70kg",
-      "pct": 91.66666666666667,
+      "pct": 95.5238095238095,
       "cls": "",
-      "note": "最近 11-13 55×5｜历史最佳 70kg"
+      "note": "最近 11-21 59×4｜历史最佳 70kg"
     },
     {
       "name": "引体向上",
@@ -63,27 +63,27 @@
   "gaps": [
     {
       "name": "胸",
-      "days": 4,
+      "days": 5,
       "last": "2026-11-16"
     },
     {
       "name": "背",
-      "days": 2,
+      "days": 3,
       "last": "2026-11-18"
     },
     {
       "name": "肩",
-      "days": 7,
-      "last": "2026-11-13"
+      "days": 0,
+      "last": "2026-11-21"
     },
     {
       "name": "腿",
-      "days": 5,
+      "days": 6,
       "last": "2026-11-15"
     },
     {
       "name": "硬拉",
-      "days": 2,
+      "days": 3,
       "last": "2026-11-18"
     },
     {
@@ -94,45 +94,58 @@
   ],
   "todaySummary": {
     "training": {
-      "label": "最近训练 11-19",
-      "date": "2026-11-19",
-      "sets": 4,
-      "volume": 2000.0,
-      "parts": "其他 / 有氧",
+      "label": "训练",
+      "date": "2026-11-21",
+      "sets": 24,
+      "volume": 6422.5,
+      "parts": "其他 / 肩",
       "items": [
         {
-          "name": "ABDOMINAL CRUNCH",
-          "sets": "25×20/20/20/20",
-          "volume": 2000
+          "name": "STANDING LATERAL RAISE",
+          "sets": "40×12 / 40×12 / 40×12 / 30×12",
+          "volume": 1800
         },
         {
-          "name": "爬楼机",
-          "sets": "自重×0/1",
-          "volume": 0
+          "name": "实力举",
+          "sets": "57×5 / 57×5 / 57×5 / 57×5 …",
+          "volume": 1376
+        },
+        {
+          "name": "面拉",
+          "sets": "23×12/12/12/12",
+          "volume": 1104
+        },
+        {
+          "name": "PLATE LOADED SHOULDER",
+          "sets": "30×12/12/10",
+          "volume": 1020
+        },
+        {
+          "name": "哑铃侧平举",
+          "sets": "15×12/12/12/12",
+          "volume": 720
+        },
+        {
+          "name": "哑铃交替弯举",
+          "sets": "18×6/6/6/5",
+          "volume": 402
         }
       ]
     },
     "diet": {
-      "kcal": 1700.0,
-      "protein": 76.0,
-      "line": 1800,
+      "kcal": 0.0,
+      "protein": 0.0,
+      "line": 1900,
       "protein_target": 130
     },
     "health": {
-      "sleep": null,
-      "steps": 107.0,
-      "active": 32.0,
-      "date": "2026-11-13"
+      "sleep": 2.44,
+      "steps": 5833.0,
+      "active": 814.0,
+      "date": "2026-11-21"
     }
   },
   "series": [
-    {
-      "date": "2026-11-07",
-      "volume": 0,
-      "kcal": 0,
-      "protein": 0,
-      "sleep": 6.11
-    },
     {
       "date": "2026-11-08",
       "volume": 12110,
@@ -180,52 +193,66 @@
       "volume": 0,
       "kcal": 1413,
       "protein": 49,
-      "sleep": 0
+      "sleep": 1.0
     },
     {
       "date": "2026-11-15",
       "volume": 14395,
       "kcal": 330,
       "protein": 11,
-      "sleep": 0
+      "sleep": 8.82
     },
     {
       "date": "2026-11-16",
       "volume": 7310,
       "kcal": 624,
       "protein": 36,
-      "sleep": 0
+      "sleep": 4.29
     },
     {
       "date": "2026-11-17",
       "volume": 0,
       "kcal": 959,
       "protein": 52,
-      "sleep": 0
+      "sleep": 4.51
     },
     {
       "date": "2026-11-18",
       "volume": 3120,
       "kcal": 2039,
       "protein": 112,
-      "sleep": 0
+      "sleep": 4.5
     },
     {
       "date": "2026-11-19",
       "volume": 2000,
       "kcal": 670,
       "protein": 42,
-      "sleep": 0
+      "sleep": 6.12
     },
     {
       "date": "2026-11-20",
       "volume": 0,
       "kcal": 1700,
       "protein": 76,
-      "sleep": 0
+      "sleep": 5.65
+    },
+    {
+      "date": "2026-11-21",
+      "volume": 6422,
+      "kcal": 0,
+      "protein": 0,
+      "sleep": 2.44
     }
   ],
   "sessions": [
+    {
+      "date": "2026-11-21",
+      "parts": "其他 / 肩",
+      "sets": 24,
+      "volume": 6422,
+      "top": "STANDING LATERAL RAISE"
+    },
     {
       "date": "2026-11-19",
       "parts": "其他 / 有氧",
@@ -260,16 +287,49 @@
       "sets": 13,
       "volume": 14395,
       "top": "M-TORTURE POWER LEG PRESS"
-    },
-    {
-      "date": "2026-11-13",
-      "parts": "肩",
-      "sets": 9,
-      "volume": 1870,
-      "top": "实力举"
     }
   ],
   "calendar": {
+    "2026-11-21": {
+      "parts": [
+        "其他",
+        "肩"
+      ],
+      "sets": 24,
+      "volume": 6422,
+      "items": [
+        {
+          "name": "STANDING LATERAL RAISE",
+          "sets": "40×12 / 40×12 / 40×12 / 30×12",
+          "volume": 1800
+        },
+        {
+          "name": "实力举",
+          "sets": "57×5 / 57×5 / 57×5 / 57×5 …",
+          "volume": 1376
+        },
+        {
+          "name": "面拉",
+          "sets": "23×12/12/12/12",
+          "volume": 1104
+        },
+        {
+          "name": "PLATE LOADED SHOULDER",
+          "sets": "30×12/12/10",
+          "volume": 1020
+        },
+        {
+          "name": "哑铃侧平举",
+          "sets": "15×12/12/12/12",
+          "volume": 720
+        },
+        {
+          "name": "哑铃交替弯举",
+          "sets": "18×6/6/6/5",
+          "volume": 402
+        }
+      ]
+    },
     "2026-11-19": {
       "parts": [
         "其他",
@@ -3530,13 +3590,13 @@
       ]
     }
   },
-  "lastHealthDate": "2026-11-13",
+  "lastHealthDate": "2026-11-21",
   "rings": {
-    "active": 33.0,
+    "active": 814.0,
     "active_goal": 370.0,
-    "move": 0.0,
+    "move": 92.0,
     "move_goal": 45.0,
-    "stand": 1.0,
+    "stand": 7.0,
     "stand_goal": 6.0
   }
 }
