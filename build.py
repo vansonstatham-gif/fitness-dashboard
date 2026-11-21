@@ -124,7 +124,7 @@ def main():
             item["sets"] += 1
         item["volume"] += vol
         item["parts"].add(part)
-        item["items"][name].append((w, reps))
+        item["items"][name].append((s(x.get("时间")), w, reps))
 
         if w > 0 and reps > 0:
             e1rm = w * (1 + reps / 30)
@@ -283,26 +283,42 @@ def main():
     if tr_date != td:
         td_tr = by_date[tr_date]
     td_diet = diet_by_date.get(td, {"kcal": 0.0, "protein": 0.0, "items": []})
+    def wnum(w):
+        return f"{w:g}"
+
     def set_label(w, r):
-        return (f"自重×{r:.0f}" if w == 0 else f"{w:.0f}×{r:.0f}")
+        return (f"自重×{r:g}" if w == 0 else f"{wnum(w)}×{r:g}")
 
     def seq_of(pairs):
-        """Collapse a lift's sets into one display string (15/12/10, or 100×12/12)."""
-        weights = {p[0] for p in pairs}
-        if len(weights) == 1 and len(pairs) > 1:
-            w0 = pairs[0][0]
-            reps = "/".join(f"{r:.0f}" for _, r in pairs)
-            return f"自重×{reps}" if w0 == 0 else f"{w0:.0f}×{reps}"
-        if len(pairs) == 1:
-            return set_label(*pairs[0])
-        shown = pairs[:4]
-        return " / ".join(set_label(w, r) for w, r in shown) + (" …" if len(pairs) > 4 else "")
+        """Collapse a lift's sets into one display string (15/12/10, or 57×5/5/5/5 + 59×4)."""
+        if not pairs:
+            return ""
+        if len({p[1] for p in pairs}) == 1:
+            w0 = pairs[0][1]
+            reps = "/".join(f"{p[2]:g}" for p in pairs)
+            return f"自重×{reps}" if w0 == 0 else f"{wnum(w0)}×{reps}"
+        runs = []
+        for _, w, r in pairs:
+            if runs and runs[-1][0] == w:
+                runs[-1][1].append(r)
+            else:
+                runs.append((w, [r]))
+        shown = runs[:3]
+        txt = " + ".join((f"自重×{('/'.join(f'{r:g}' for r in rs))}" if w == 0
+                          else f"{wnum(w)}×{'/'.join(f'{r:g}' for r in rs)}")
+                         for w, rs in shown)
+        return txt + (" + …" if len(runs) > 3 else "")
 
     def lift_list(item):
-        out = [{"name": n, "sets": seq_of(p), "volume": round(sum(a * b for a, b in p))}
-               for n, p in item["items"].items()]
-        out.sort(key=lambda i: -i["volume"])
-        return out
+        """Lifts in the order they were actually performed (by first set timestamp)."""
+        rows = []
+        for n, p in item["items"].items():
+            p = sorted(p, key=lambda z: z[0] or "9999")
+            rows.append(((p[0][0] or "9999"),
+                         {"name": n, "sets": seq_of(p),
+                          "volume": round(sum(w * r for _, w, r in p))}))
+        rows.sort(key=lambda z: z[0])
+        return [r[1] for r in rows]
 
     items = lift_list(td_tr)
 
@@ -355,7 +371,9 @@ def main():
     sessions = []
     for d in sorted(by_date, reverse=True)[:6]:
         item = by_date[d]
-        top = max(item["items"].items(), key=lambda kv: sum(a * b for a, b in kv[1]))[0] if item["items"] else "—"
+        top = (max(item["items"].items(),
+                   key=lambda kv: sum(w * r for _, w, r in kv[1]))[0]
+               if item["items"] else "—")
         sessions.append({"date": d, "parts": " / ".join(sorted(item["parts"])),
                          "sets": item["sets"], "volume": round(item["volume"]), "top": top})
 
