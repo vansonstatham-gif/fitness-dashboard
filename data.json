@@ -1,6 +1,6 @@
 {
-  "today": "2026-11-21",
-  "generated_at": "2026-11-21 23:14",
+  "today": "2026-11-22",
+  "generated_at": "2026-11-22 12:00",
   "phase": "减脂期 · 目标体脂 15%",
   "goals": [
     {
@@ -66,27 +66,27 @@
       "items": [
         {
           "name": "胸",
-          "days": 5,
+          "days": 6,
           "last": "2026-11-16"
         },
         {
           "name": "背",
-          "days": 3,
+          "days": 4,
           "last": "2026-11-18"
         },
         {
           "name": "肩",
-          "days": 0,
+          "days": 1,
           "last": "2026-11-21"
         },
         {
           "name": "腿",
-          "days": 6,
+          "days": 7,
           "last": "2026-11-15"
         },
         {
           "name": "有氧",
-          "days": 2,
+          "days": 3,
           "last": "2026-11-19"
         }
       ]
@@ -96,17 +96,17 @@
       "items": [
         {
           "name": "卧推",
-          "days": 5,
+          "days": 6,
           "last": "2026-11-16"
         },
         {
           "name": "深蹲",
-          "days": 6,
+          "days": 7,
           "last": "2026-11-15"
         },
         {
           "name": "硬拉",
-          "days": 3,
+          "days": 4,
           "last": "2026-11-18"
         }
       ]
@@ -116,12 +116,12 @@
       "items": [
         {
           "name": "实力举",
-          "days": 0,
+          "days": 1,
           "last": "2026-11-21"
         },
         {
           "name": "引体向上",
-          "days": 3,
+          "days": 4,
           "last": "2026-11-18"
         }
       ]
@@ -129,7 +129,7 @@
   ],
   "todaySummary": {
     "training": {
-      "label": "训练",
+      "label": "最近训练 11-21",
       "date": "2026-11-21",
       "sets": 24,
       "volume": 6422.5,
@@ -168,26 +168,19 @@
       ]
     },
     "diet": {
-      "kcal": 815.0,
-      "protein": 51.0,
-      "line": 1900,
+      "kcal": 0.0,
+      "protein": 0.0,
+      "line": 1800,
       "protein_target": 130
     },
     "health": {
-      "sleep": 2.44,
+      "sleep": null,
       "steps": 5833.0,
       "active": 814.0,
       "date": "2026-11-21"
     }
   },
   "series": [
-    {
-      "date": "2026-11-08",
-      "volume": 12110,
-      "kcal": 340,
-      "protein": 6,
-      "sleep": 8.5
-    },
     {
       "date": "2026-11-09",
       "volume": 0,
@@ -278,6 +271,13 @@
       "kcal": 815,
       "protein": 51,
       "sleep": 2.44
+    },
+    {
+      "date": "2026-11-22",
+      "volume": 0,
+      "kcal": 0,
+      "protein": 0,
+      "sleep": 0
     }
   ],
   "sessions": [
@@ -3584,43 +3584,6 @@
           "name": "CHEST PRESS",
           "sets": "30×6",
           "volume": 180
-        }
-      ]
-    },
-    "2026-04-25": {
-      "parts": [
-        "有氧",
-        "背",
-        "其他",
-        "硬拉"
-      ],
-      "sets": 16,
-      "volume": 3600,
-      "items": [
-        {
-          "name": "引体向上",
-          "sets": "自重×11/10/8/6",
-          "volume": 0
-        },
-        {
-          "name": "SCISSOR-STYLE LAT PULLDOWN",
-          "sets": "20×12 + 25×12/12/12",
-          "volume": 1140
-        },
-        {
-          "name": "硬拉",
-          "sets": "90×3 + 110×1",
-          "volume": 380
-        },
-        {
-          "name": "Rowing",
-          "sets": "45×12/12/12",
-          "volume": 1620
-        },
-        {
-          "name": "哑铃交替弯举",
-          "sets": "17.5×4 + 15×4 + 12.5×8 + …",
-          "volume": 460
         }
       ]
     }
