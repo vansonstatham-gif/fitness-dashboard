@@ -1,6 +1,6 @@
 {
   "today": "2026-11-23",
-  "generated_at": "2026-11-23 08:15",
+  "generated_at": "2026-11-23 09:09",
   "phase": "减脂期 · 目标体脂 15%",
   "goals": [
     {
@@ -153,16 +153,16 @@
       ]
     },
     "diet": {
-      "kcal": 0.0,
-      "protein": 0.0,
+      "kcal": 605.0,
+      "protein": 31.0,
       "line": 1800,
       "protein_target": 130
     },
     "health": {
-      "sleep": null,
-      "steps": 5833.0,
-      "active": 814.0,
-      "date": "2026-11-21"
+      "sleep": 5.32,
+      "steps": 421.0,
+      "active": 57.0,
+      "date": "2026-11-23"
     }
   },
   "series": [
@@ -260,9 +260,9 @@
     {
       "date": "2026-11-23",
       "volume": 0,
-      "kcal": 0,
-      "protein": 0,
-      "sleep": 0
+      "kcal": 605,
+      "protein": 31,
+      "sleep": 5.32
     }
   ],
   "sessions": [
@@ -3597,13 +3597,13 @@
       ]
     }
   },
-  "lastHealthDate": "2026-11-21",
+  "lastHealthDate": "2026-11-23",
   "rings": {
-    "active": 814.0,
+    "active": 58.0,
     "active_goal": 370.0,
-    "move": 92.0,
+    "move": 0.0,
     "move_goal": 45.0,
-    "stand": 7.0,
+    "stand": 3.0,
     "stand_goal": 6.0
   }
 }
