@@ -1,6 +1,6 @@
 {
   "today": "2026-11-23",
-  "generated_at": "2026-11-23 09:09",
+  "generated_at": "2026-11-23 23:00",
   "phase": "减脂期 · 目标体脂 15%",
   "goals": [
     {
@@ -9,7 +9,7 @@
       "target": "140kg",
       "pct": 79.16666666666667,
       "cls": "",
-      "note": "最近 11-16 95×5｜历史最佳 117kg"
+      "note": "最近 11-23 95×5｜历史最佳 117kg"
     },
     {
       "name": "深蹲",
@@ -66,8 +66,8 @@
       "items": [
         {
           "name": "胸",
-          "days": 7,
-          "last": "2026-11-16"
+          "days": 0,
+          "last": "2026-11-23"
         },
         {
           "name": "背",
@@ -96,8 +96,8 @@
       "items": [
         {
           "name": "卧推",
-          "days": 7,
-          "last": "2026-11-16"
+          "days": 0,
+          "last": "2026-11-23"
         },
         {
           "name": "深蹲",
@@ -129,33 +129,38 @@
   ],
   "todaySummary": {
     "training": {
-      "label": "最近训练 11-22",
-      "date": "2026-11-22",
-      "sets": 11,
-      "volume": 11808.0,
-      "parts": "腿",
+      "label": "训练",
+      "date": "2026-11-23",
+      "sets": 14,
+      "volume": 6555.0,
+      "parts": "胸",
       "items": [
         {
-          "name": "深蹲",
-          "sets": "120×5/5/5/5/3",
-          "volume": 2760
+          "name": "卧推",
+          "sets": "95×5/5/5/5/3",
+          "volume": 2185
         },
         {
-          "name": "PLATE LOADED LEG PRESS",
-          "sets": "140×12 + 170×12 + 180×12 + …",
-          "volume": 8280
+          "name": "M-TORTURE WIDE CHEST PRESS",
+          "sets": "45×10 + 40×8/6 + 35×8",
+          "volume": 1290
         },
         {
-          "name": "GLUTE EXTENSION",
-          "sets": "32×12/12",
-          "volume": 768
+          "name": "STANDING MULTI FLIGHT",
+          "sets": "70×12/12/12",
+          "volume": 2520
+        },
+        {
+          "name": "CHEST PRESS",
+          "sets": "35×10/6",
+          "volume": 560
         }
       ]
     },
     "diet": {
-      "kcal": 605.0,
-      "protein": 31.0,
-      "line": 1800,
+      "kcal": 1680.0,
+      "protein": 91.0,
+      "line": 1900,
       "protein_target": 130
     },
     "health": {
@@ -259,13 +264,20 @@
     },
     {
       "date": "2026-11-23",
-      "volume": 0,
-      "kcal": 605,
-      "protein": 31,
+      "volume": 6555,
+      "kcal": 1680,
+      "protein": 91,
       "sleep": 5.32
     }
   ],
   "sessions": [
+    {
+      "date": "2026-11-23",
+      "parts": "胸",
+      "sets": 14,
+      "volume": 6555,
+      "top": "STANDING MULTI FLIGHT"
+    },
     {
       "date": "2026-11-22",
       "parts": "腿",
@@ -300,16 +312,38 @@
       "sets": 0,
       "volume": 0,
       "top": "爬楼机"
-    },
-    {
-      "date": "2026-11-16",
-      "parts": "胸",
-      "sets": 12,
-      "volume": 7310,
-      "top": "PLATE LOADED INCLINE"
     }
   ],
   "calendar": {
+    "2026-11-23": {
+      "parts": [
+        "胸"
+      ],
+      "sets": 14,
+      "volume": 6555,
+      "items": [
+        {
+          "name": "卧推",
+          "sets": "95×5/5/5/5/3",
+          "volume": 2185
+        },
+        {
+          "name": "M-TORTURE WIDE CHEST PRESS",
+          "sets": "45×10 + 40×8/6 + 35×8",
+          "volume": 1290
+        },
+        {
+          "name": "STANDING MULTI FLIGHT",
+          "sets": "70×12/12/12",
+          "volume": 2520
+        },
+        {
+          "name": "CHEST PRESS",
+          "sets": "35×10/6",
+          "volume": 560
+        }
+      ]
+    },
     "2026-11-22": {
       "parts": [
         "腿"
