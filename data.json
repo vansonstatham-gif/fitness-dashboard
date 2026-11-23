@@ -1,6 +1,6 @@
 {
-  "today": "2026-11-22",
-  "generated_at": "2026-11-22 12:00",
+  "today": "2026-11-23",
+  "generated_at": "2026-11-23 08:15",
   "phase": "减脂期 · 目标体脂 15%",
   "goals": [
     {
@@ -13,11 +13,11 @@
     },
     {
       "name": "深蹲",
-      "current": "e1RM 134kg (115×5)",
+      "current": "e1RM 140kg (120×5)",
       "target": "210kg",
-      "pct": 63.88888888888889,
+      "pct": 66.66666666666666,
       "cls": "",
-      "note": "最近 11-15｜历史最佳 134kg (11-15)"
+      "note": "最近 11-22｜历史最佳 140kg (11-22)"
     },
     {
       "name": "硬拉",
@@ -66,27 +66,27 @@
       "items": [
         {
           "name": "胸",
-          "days": 6,
+          "days": 7,
           "last": "2026-11-16"
         },
         {
           "name": "背",
-          "days": 4,
+          "days": 5,
           "last": "2026-11-18"
         },
         {
           "name": "肩",
-          "days": 1,
+          "days": 2,
           "last": "2026-11-21"
         },
         {
           "name": "腿",
-          "days": 7,
-          "last": "2026-11-15"
+          "days": 1,
+          "last": "2026-11-22"
         },
         {
           "name": "有氧",
-          "days": 3,
+          "days": 4,
           "last": "2026-11-19"
         }
       ]
@@ -96,17 +96,17 @@
       "items": [
         {
           "name": "卧推",
-          "days": 6,
+          "days": 7,
           "last": "2026-11-16"
         },
         {
           "name": "深蹲",
-          "days": 7,
-          "last": "2026-11-15"
+          "days": 1,
+          "last": "2026-11-22"
         },
         {
           "name": "硬拉",
-          "days": 4,
+          "days": 5,
           "last": "2026-11-18"
         }
       ]
@@ -116,12 +116,12 @@
       "items": [
         {
           "name": "实力举",
-          "days": 1,
+          "days": 2,
           "last": "2026-11-21"
         },
         {
           "name": "引体向上",
-          "days": 4,
+          "days": 5,
           "last": "2026-11-18"
         }
       ]
@@ -129,41 +129,26 @@
   ],
   "todaySummary": {
     "training": {
-      "label": "最近训练 11-21",
-      "date": "2026-11-21",
-      "sets": 24,
-      "volume": 6422.5,
-      "parts": "肩 / 其他",
+      "label": "最近训练 11-22",
+      "date": "2026-11-22",
+      "sets": 11,
+      "volume": 11808.0,
+      "parts": "腿",
       "items": [
         {
-          "name": "实力举",
-          "sets": "57×5/5/5/5 + 59×4",
-          "volume": 1376
+          "name": "深蹲",
+          "sets": "120×5/5/5/5/3",
+          "volume": 2760
         },
         {
-          "name": "哑铃侧平举",
-          "sets": "15×12/12/12/12",
-          "volume": 720
+          "name": "PLATE LOADED LEG PRESS",
+          "sets": "140×12 + 170×12 + 180×12 + …",
+          "volume": 8280
         },
         {
-          "name": "哑铃交替弯举",
-          "sets": "17.5×6/6/6/5",
-          "volume": 402
-        },
-        {
-          "name": "面拉",
-          "sets": "23×12/12/12/12",
-          "volume": 1104
-        },
-        {
-          "name": "PLATE LOADED SHOULDER",
-          "sets": "30×12/12/10",
-          "volume": 1020
-        },
-        {
-          "name": "STANDING LATERAL RAISE",
-          "sets": "40×12/12/12 + 30×12",
-          "volume": 1800
+          "name": "GLUTE EXTENSION",
+          "sets": "32×12/12",
+          "volume": 768
         }
       ]
     },
@@ -181,13 +166,6 @@
     }
   },
   "series": [
-    {
-      "date": "2026-11-09",
-      "volume": 0,
-      "kcal": 2496,
-      "protein": 150,
-      "sleep": 3.43
-    },
     {
       "date": "2026-11-10",
       "volume": 8040,
@@ -274,6 +252,13 @@
     },
     {
       "date": "2026-11-22",
+      "volume": 11808,
+      "kcal": 1495,
+      "protein": 109,
+      "sleep": 0
+    },
+    {
+      "date": "2026-11-23",
       "volume": 0,
       "kcal": 0,
       "protein": 0,
@@ -281,6 +266,13 @@
     }
   ],
   "sessions": [
+    {
+      "date": "2026-11-22",
+      "parts": "腿",
+      "sets": 11,
+      "volume": 11808,
+      "top": "PLATE LOADED LEG PRESS"
+    },
     {
       "date": "2026-11-21",
       "parts": "其他 / 肩",
@@ -315,16 +307,33 @@
       "sets": 12,
       "volume": 7310,
       "top": "PLATE LOADED INCLINE"
-    },
-    {
-      "date": "2026-11-15",
-      "parts": "腿",
-      "sets": 13,
-      "volume": 14395,
-      "top": "M-TORTURE POWER LEG PRESS"
     }
   ],
   "calendar": {
+    "2026-11-22": {
+      "parts": [
+        "腿"
+      ],
+      "sets": 11,
+      "volume": 11808,
+      "items": [
+        {
+          "name": "深蹲",
+          "sets": "120×5/5/5/5/3",
+          "volume": 2760
+        },
+        {
+          "name": "PLATE LOADED LEG PRESS",
+          "sets": "140×12 + 170×12 + 180×12 + …",
+          "volume": 8280
+        },
+        {
+          "name": "GLUTE EXTENSION",
+          "sets": "32×12/12",
+          "volume": 768
+        }
+      ]
+    },
     "2026-11-21": {
       "parts": [
         "肩",
