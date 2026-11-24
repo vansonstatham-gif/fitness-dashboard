@@ -1,6 +1,6 @@
 {
-  "today": "2026-11-23",
-  "generated_at": "2026-11-23 23:00",
+  "today": "2026-11-24",
+  "generated_at": "2026-11-24 23:00",
   "phase": "减脂期 · 目标体脂 15%",
   "goals": [
     {
@@ -66,27 +66,27 @@
       "items": [
         {
           "name": "胸",
-          "days": 0,
+          "days": 1,
           "last": "2026-11-23"
         },
         {
           "name": "背",
-          "days": 5,
+          "days": 6,
           "last": "2026-11-18"
         },
         {
           "name": "肩",
-          "days": 2,
+          "days": 3,
           "last": "2026-11-21"
         },
         {
           "name": "腿",
-          "days": 1,
+          "days": 2,
           "last": "2026-11-22"
         },
         {
           "name": "有氧",
-          "days": 4,
+          "days": 5,
           "last": "2026-11-19"
         }
       ]
@@ -96,17 +96,17 @@
       "items": [
         {
           "name": "卧推",
-          "days": 0,
+          "days": 1,
           "last": "2026-11-23"
         },
         {
           "name": "深蹲",
-          "days": 1,
+          "days": 2,
           "last": "2026-11-22"
         },
         {
           "name": "硬拉",
-          "days": 5,
+          "days": 6,
           "last": "2026-11-18"
         }
       ]
@@ -116,12 +116,12 @@
       "items": [
         {
           "name": "实力举",
-          "days": 2,
+          "days": 3,
           "last": "2026-11-21"
         },
         {
           "name": "引体向上",
-          "days": 5,
+          "days": 6,
           "last": "2026-11-18"
         }
       ]
@@ -129,7 +129,7 @@
   ],
   "todaySummary": {
     "training": {
-      "label": "训练",
+      "label": "最近训练 11-23",
       "date": "2026-11-23",
       "sets": 14,
       "volume": 6555.0,
@@ -158,26 +158,19 @@
       ]
     },
     "diet": {
-      "kcal": 1680.0,
-      "protein": 91.0,
-      "line": 1900,
+      "kcal": 995.0,
+      "protein": 64.0,
+      "line": 1800,
       "protein_target": 130
     },
     "health": {
-      "sleep": 5.32,
+      "sleep": null,
       "steps": 421.0,
       "active": 57.0,
       "date": "2026-11-23"
     }
   },
   "series": [
-    {
-      "date": "2026-11-10",
-      "volume": 8040,
-      "kcal": 2715,
-      "protein": 151,
-      "sleep": 6.75
-    },
     {
       "date": "2026-11-11",
       "volume": 3450,
@@ -268,6 +261,13 @@
       "kcal": 1680,
       "protein": 91,
       "sleep": 5.32
+    },
+    {
+      "date": "2026-11-24",
+      "volume": 0,
+      "kcal": 995,
+      "protein": 64,
+      "sleep": 0
     }
   ],
   "sessions": [
