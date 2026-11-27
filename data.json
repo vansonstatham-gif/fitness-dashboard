@@ -1,6 +1,6 @@
 {
   "today": "2026-11-27",
-  "generated_at": "2026-11-27 12:48",
+  "generated_at": "2026-11-27 23:00",
   "status": {
     "2026-11-26": {
       "type": "sick",
@@ -170,8 +170,8 @@
       ]
     },
     "diet": {
-      "kcal": 0.0,
-      "protein": 0.0,
+      "kcal": 1460.0,
+      "protein": 55.0,
       "line": 1800,
       "protein_target": 130
     },
@@ -277,8 +277,8 @@
     {
       "date": "2026-11-27",
       "volume": 0,
-      "kcal": 0,
-      "protein": 0,
+      "kcal": 1460,
+      "protein": 55,
       "sleep": 0
     }
   ],
