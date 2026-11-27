@@ -380,9 +380,16 @@ def main():
         sessions.append({"date": d, "parts": " / ".join(sorted(item["parts"])),
                          "sets": item["sets"], "volume": round(item["volume"]), "top": top})
 
+    status = {}
+    status_path = os.path.join(HERE, "status.json")
+    if os.path.exists(status_path):
+        with open(status_path, encoding="utf-8") as f:
+            status = json.load(f)
+
     data = {
         "today": td,
         "generated_at": datetime.now().strftime("%Y-%m-%d %H:%M"),
+        "status": status,
         "phase": "减脂期 · 目标体脂 15%",
         "goals": goals,
         "gapGroups": gap_groups,

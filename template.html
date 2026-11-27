@@ -71,6 +71,14 @@
   .cal-cell .d{font-size:10.5px;color:#7d8ba1}
   .cal-cell.has .d{color:#fff;font-weight:700;text-shadow:0 1px 3px rgba(0,0,0,.6)}
   .cal-cell.today{box-shadow:inset 0 0 0 1px rgba(111,227,123,.55)}
+  .cal-cell.sick{background:linear-gradient(155deg,rgba(155,140,255,.26),rgba(155,140,255,.07));border-color:rgba(155,140,255,.45)}
+  .cal-cell.sick .pill{font-size:23px;line-height:1;text-align:center;margin-top:6px}
+  .status-bar{display:flex;align-items:center;gap:9px;flex-wrap:wrap;margin-bottom:14px;padding:10px 13px;border-radius:11px;
+    background:linear-gradient(120deg,rgba(155,140,255,.2),rgba(155,140,255,.05));border:1px solid rgba(155,140,255,.35)}
+  .status-bar .ico{font-size:17px;line-height:1}
+  .status-bar b{font-size:13px;color:#EDE9FF}
+  .status-bar .muted{font-size:11px;color:#A9A3C9}
+  .cal-legend .lg-emoji{font-size:9.5px;color:#8B97AB}
   .cal-cell.sel{outline:2px solid #4FC3F7;outline-offset:-1px}
   .cal-tags{display:flex;flex-wrap:wrap;gap:3px;margin-top:5px}
   .cal-tag{font-size:9px;padding:1px 5px;border-radius:6px;white-space:nowrap;line-height:1.5;
@@ -96,6 +104,7 @@
     .cal-cell{aspect-ratio:1/1;min-height:0;padding:3px;border-radius:8px}
     .cal-cell .d{font-size:11px;line-height:1.2;font-weight:700}
     .cal-cell .cal-tags,.cal-sum{display:none}
+    .cal-cell.sick .pill{font-size:16px;margin-top:2px}
     .cal-legend{gap:7px;margin-bottom:10px}
     .cal-legend span{font-size:9.5px;gap:4px}
     .cal-legend i{width:8px;height:8px}
@@ -135,6 +144,7 @@
 
   <div class="panel">
     <h2><span class="dot"></span>今日</h2>
+    <div id="todayStatus"></div>
     <div class="grid g3" id="today"></div>
     <div style="margin-top:16px" id="todayTraining"></div>
   </div>
@@ -201,6 +211,16 @@ DATA.goals.forEach(g=>{
       ${g.note?`<div class="nums" style="margin-top:4px"><span style="color:#6f7c92">${esc(g.note)}</span></div>`:""}
     </div>`);
 });
+
+// today status (sick days etc.)
+(function(){
+  const st = (DATA.status||{})[DATA.today];
+  const host = document.getElementById("todayStatus");
+  if(!st || !host) return;
+  const hint = st.type === "sick" ? "今天不安排训练，优先恢复；退烧满 24 小时且症状好转后再从轻量做起。" : "今天为特殊状态日。";
+  host.innerHTML = `<div class="status-bar"><span class="ico">${st.icon||"💊"}</span>
+    <b>${esc(st.label||"暂停训练")}</b><span class="muted">${esc(hint)}</span></div>`;
+})();
 
 // today cards
 const t = DATA.todaySummary;
@@ -428,7 +448,8 @@ function cellFill(parts){
   const el = document.getElementById("calLegend");
   if(!el) return;
   el.innerHTML = Object.keys(PART_COLORS).map(p=>
-    `<span><i style="background:${PART_COLORS[p]}"></i>${esc(p)}</span>`).join("");
+    `<span><i style="background:${PART_COLORS[p]}"></i>${esc(p)}</span>`).join("")
+    + `<span class="lg-emoji">💊 病休</span>`;
 })();
 
 function renderCalendar(){
@@ -441,19 +462,23 @@ function renderCalendar(){
   for(let d=1; d<=ndays; d++){
     const ds = `${calMonth}-${String(d).padStart(2,"0")}`;
     const info = CAL[ds];
+    const st = (DATA.status||{})[ds];
     const cls = ["cal-cell"];
     if(info){ cls.push("has"); days++; sets += info.sets||0; vol += info.volume||0; }
+    if(st) cls.push("sick");
     if(ds === DATA.today) cls.push("today");
     if(ds === calSel) cls.push("sel");
     let style = "";
-    if(info){
+    if(info && !st){
       const f = cellFill(info.parts);
       style = ` style="background:${f.bg};border-color:${f.bd}"`;
     }
-    cells += `<div class="${cls.join(" ")}"${info?` data-d="${ds}"`:""}${style}>
-      <div class="d">${d}</div>
-      ${info ? `<div class="cal-tags">${(info.parts||[]).map(partTag).join("")}</div>
-                <div class="cal-sum">${info.sets?info.sets+"组":""}${info.volume?" · "+KG(info.volume):""}</div>` : ""}
+    const body = st
+      ? `<div class="pill">${st.icon||"💊"}</div>`
+      : (info ? `<div class="cal-tags">${(info.parts||[]).map(partTag).join("")}</div>
+                <div class="cal-sum">${info.sets?info.sets+"组":""}${info.volume?" · "+KG(info.volume):""}</div>` : "");
+    cells += `<div class="${cls.join(" ")}"${info?` data-d="${ds}"`:""}${style} title="${st?esc(st.label||""):""}">
+      <div class="d">${d}</div>${body}
     </div>`;
   }
   document.getElementById("calGrid").innerHTML =
